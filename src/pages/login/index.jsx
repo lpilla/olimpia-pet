@@ -6,12 +6,12 @@ const Login = () => {
     <div>
       <form action="">
         <h3>Login</h3>
-        <label for="username"></label>
+        <label htmlFor="username"></label>
         <input type="text" placeholder="Inserisci Email" id="username" />
         <h6>
           <Link to="/register">Email dimenticata?</Link>
         </h6>
-        <label for="password"></label>
+        <label htmlFor="password"></label>
         <input type="password" placeholder="Inserisci Password" />
         <h6>
           <Link to="/register">Password dimenticata?</Link>
@@ -21,14 +21,14 @@ const Login = () => {
           Non hai un account? <Link to="/register"> Registrati</Link>
         </h4>
         {
-          <div class="social">
-            <div class="circle">
+          <div className="social">
+            <div className="circle">
               <img src="" alt="Google" />
             </div>
-            <div class="circle">
+            <div className="circle">
               <img src="" alt="Facebook" />
             </div>
-            <div class="circle">
+            <div className="circle">
               <img src="" alt="Apple" />
             </div>
           </div>

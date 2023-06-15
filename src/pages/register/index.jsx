@@ -1,4 +1,4 @@
-//import styles from "./ffff/register.css";
+import "./register.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -21,7 +21,7 @@ const Register = () => {
       <h1>Register</h1>
 
       {step === 1 && (
-        <form action="" onSubmit={changeStep}>
+        <form action="" className="form" onSubmit={changeStep}>
           <label htmlFor="nome">Inserisci il nome</label>
           <input
             type="text"
@@ -62,7 +62,7 @@ const Register = () => {
         </form>
       )}
       {step === 2 && <SecondStep data={data} setData={setData} />}
-      {step === 3 && <Authentication></Authentication>}
+      {step === 3 && <Authentication />}
       <h1>I dati inseriti sono: </h1>
       <h5>Nome:{data.nome}</h5>
       <h5>Cognome:{data.cognome}</h5>
@@ -102,7 +102,7 @@ const SecondStep = ({ data, setData }) => {
           value="venditore"
           onChange={(e) => setValue(e.target.value)}
         />
-        <label for="venditore">Venditore</label>
+        <label htmlFor="venditore">Venditore</label>
         <button type="submit">send</button>
       </form>
     </div>
