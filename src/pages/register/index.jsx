@@ -57,8 +57,29 @@ const Register = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
-          <button>Register</button>
+          <div className="typeOfUser">
+            <div className="choseUser">
+              <input
+                type="radio"
+                name="cliente"
+                id=""
+                value="cliente"
+                onChange={(e) => setValue(e.target.value)}
+              />
+              <label htmlFor="cliente">Cliente</label>
+            </div>
+            <div className="choseVendor">
+              <input
+                type="radio"
+                name="venditore"
+                id=""
+                value="venditore"
+                onChange={(e) => setValue(e.target.value)}
+              />
+              <label htmlFor="venditore">Venditore</label>
+            </div>
+          </div>
+          <button className="btn_form">Register</button>
         </form>
       )}
       {step === 2 && <SecondStep data={data} setData={setData} />}
@@ -124,7 +145,7 @@ const Authentication = () => {
         />
         <h4 className="objAuthentication">
           Non hai ricevuto nessuna email?
-          <Link to="/register">Richiedi nuovo codice</Link>
+          <Link className="link_to_register" to="/register">Richiedi nuovo codice</Link>
         </h4>
         <button className="objAuthentication" onClick={() => setStep(1)}>
           Torna indietro

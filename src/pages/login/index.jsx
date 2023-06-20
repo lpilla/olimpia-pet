@@ -16,7 +16,7 @@ const Login = () => {
         <h6>
           <Link to="/register">Password dimenticata?</Link>
         </h6>
-        <button>Accedi</button>
+        <button >Accedi</button>
         <h4>
           Non hai un account? <Link to="/register"> Registrati</Link>
         </h4>

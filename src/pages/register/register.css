@@ -22,8 +22,8 @@ h1 {
 
 .form {
   display: flex;
-  height: 70vh;
-  width: 70vh;
+  height: 90vh;
+  width: 75vh;
   background-color: rgba(255, 255, 255, 0.13);
   flex-direction: column;
   justify-content: center;
@@ -65,12 +65,13 @@ input {
   height: 50px;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.07);
-  border-radius: 3px;
+  border-radius: 10px;
   padding: 0 10px;
   margin-top: 8px;
   font-size: 14px;
   font-weight: 300;
   padding: 5%;
+  color: white;
 }
 
 ::placeholder {
@@ -91,6 +92,12 @@ button {
   font-weight: 600;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.btn_form{
+  display: flex;
+  background-color: white;
+  color: black;
 }
 
 .social {
@@ -155,4 +162,34 @@ button {
 
 .bottoniNextBack > button {
   padding: 10%;
+}
+.link_to_register{
+  text-decoration: none;
+}
+.typeOfUser{
+  display: flex;
+  justify-content: space-around;
+  flex-direction:row;
+}
+.choseUser{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2vh;
+  padding-left: 2vh;
+  padding-right: 2vh;
+}
+.choseVendor{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2vh;
+  padding-left: 2vh;
+  padding-right: 2vh;
+}
+.typeOfUser input{
+  height: 3vh;
+}
+.typeOfUser label{
+  margin-top: 1.5vh;
 }
