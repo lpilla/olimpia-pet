@@ -1,4 +1,3 @@
-import "./register.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -145,7 +144,9 @@ const Authentication = () => {
         />
         <h4 className="objAuthentication">
           Non hai ricevuto nessuna email?
-          <Link className="link_to_register" to="/register">Richiedi nuovo codice</Link>
+          <Link className="link_to_register" to="/register">
+            Richiedi nuovo codice
+          </Link>
         </h4>
         <button className="objAuthentication" onClick={() => setStep(1)}>
           Torna indietro

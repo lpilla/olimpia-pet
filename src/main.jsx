@@ -1,9 +1,13 @@
+import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ThemeProvider } from "@material-tailwind/react";
+
 import App from "./App";
 import Login from "./pages/login/index";
 import Register from "./pages/register/index";
+import Home from "./pages/home/index";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +23,10 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
+    path: "/home",
+    element: <Home />,
+  },
+  {
     path: "*",
     element: <App />,
   },
@@ -26,6 +34,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
