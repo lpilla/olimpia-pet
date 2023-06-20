@@ -1,133 +1,172 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import {
+  Stepper,
+  Step,
+  Card,
+  Input,
+  Checkbox,
+  Button,
+  Typography,
+  Radio
+} from "@material-tailwind/react";
 
 const Register = () => {
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [step, setStep] = useState(1);
   const [data, setData] = useState({});
-
+  const [type, setType] = useState(false);
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [isLastStep, setIsLastStep] = React.useState(false);
+  const [isFirstStep, setIsFirstStep] = React.useState(false);
   const changeStep = (e) => {
     e.preventDefault();
-    setData({ nome: nome, cognome: cognome, email: email, password: password });
-    setStep((p) => p + 1);
+    setData({
+      nome: nome,
+      cognome: cognome,
+      email: email,
+      password: password,
+      type: type,
+    });
+    handleNext();
   };
+  const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
+  const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
 
   return (
-    <div className="divPrincipale">
-      <h1>Register</h1>
-
-      {step === 1 && (
-        <form action="" className="form" onSubmit={changeStep}>
-          <label htmlFor="nome">Inserisci il nome</label>
-          <input
-            type="text"
-            placeholder="nome"
-            id="nome"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-          />
-
-          <label htmlFor="cognome">Inserisci il cognome</label>
-          <input
-            type="text"
-            id="cognome"
-            placeholder="cognome"
-            value={cognome}
-            onChange={(e) => setCognome(e.target.value)}
-          />
-
-          <label htmlFor="email">Inserisci email</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="example@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <label htmlFor="password">Inserisci la password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <div className="typeOfUser">
-            <div className="choseUser">
-              <input
-                type="radio"
-                name="cliente"
-                id=""
+    <div className="flex flex-col items-center max-w-8xl mx-auto">
+      <Card color="transparent" shadow={false}>
+        <Typography variant="h4" color="blue-gray">
+          Registrati
+        </Typography>
+        <Typography color="gray" className="mt-1 font-normal">
+          Enter your details to register.
+        </Typography>
+        {activeStep === 0 && (
+          <form
+            action=""
+            className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
+            onSubmit={changeStep}
+          >
+            <div className="mb-4 flex flex-col gap-6">
+              <Input
+                size="lg"
+                label="Nome"
+                type="text"
+                id="nome"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+              />
+              <Input
+                size="lg"
+                label="Cognome"
+                type="text"
+                id="cognome"
+                value={cognome}
+                onChange={(e) => setCognome(e.target.value)}
+              />
+              <Input
+                size="lg"
+                label="Email"
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                type="password"
+                size="lg"
+                label="Password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-10">
+              <Radio
+                id="cliente"
+                name="type"
+                label="Cliente"
                 value="cliente"
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => setType(e.target.value)}
               />
-              <label htmlFor="cliente">Cliente</label>
-            </div>
-            <div className="choseVendor">
-              <input
-                type="radio"
-                name="venditore"
-                id=""
+              <Radio
+                id="venditore"
+                name="type"
+                label="Venditore"
                 value="venditore"
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => setType(e.target.value)}
               />
-              <label htmlFor="venditore">Venditore</label>
             </div>
+            <Checkbox
+              label={
+                <Typography
+                  variant="small"
+                  color="gray"
+                  className="flex items-center font-normal"
+                >
+                  I agree the
+                  <a
+                    href="#"
+                    className="font-medium transition-colors hover:text-blue-500"
+                  >
+                    &nbsp;Terms and Conditions
+                  </a>
+                </Typography>
+              }
+              containerProps={{ className: "-ml-2.5" }}
+            />
+
+            <Button className="mt-6" fullWidth type="submit">
+              Register
+            </Button>
+            <Typography color="gray" className="mt-4 text-center font-normal">
+              Already have an account?{" "}
+              <a
+                href="#"
+                className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+              >
+                Sign In
+              </a>
+            </Typography>
+          </form>
+        )}
+      </Card>
+      {activeStep === 1 && <Authentication />}
+      <div className="w-full py-4 px-8">
+        <Stepper
+          activeStep={activeStep}
+          isLastStep={(value) => setIsLastStep(value)}
+          isFirstStep={(value) => setIsFirstStep(value)}
+        >
+          <Step onClick={() => setActiveStep(0)}>1</Step>
+          <Step onClick={() => setActiveStep(1)}>2</Step>
+          <Step onClick={() => setActiveStep(2)}>3</Step>
+        </Stepper>
+        {activeStep === 1 && (
+          <div className="mt-16 flex justify-between">
+            <Button onClick={handlePrev} disabled={isFirstStep}>
+              Prev
+            </Button>
+            <Button onClick={handleNext} disabled={isLastStep}>
+              Next
+            </Button>
           </div>
-          <button className="btn_form">Register</button>
-        </form>
-      )}
-      {step === 2 && <SecondStep data={data} setData={setData} />}
-      {step === 3 && <Authentication />}
+        )}
+      </div>
       <h1>I dati inseriti sono: </h1>
       <h5>Nome:{data.nome}</h5>
       <h5>Cognome:{data.cognome}</h5>
       <h5>Email:{data.email}</h5>
       <h5>Password:{data.password}</h5>
       <h5>type :{data.type}</h5>
-      <div className="bottoniNextBack">
-        <button className="bottoniNextBack" onClick={() => setStep(1)}>
-          Back
-        </button>
-        <button className="bottoniNextBack" onClick={() => setStep(3)}>
-          Next
-        </button>
-      </div>
     </div>
   );
 };
 export default Register;
-
-const SecondStep = ({ data, setData }) => {
-  const [value, setValue] = useState("");
-  return (
-    <div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setData({
-            ...data,
-            type: value,
-          });
-        }}
-      >
-        <input
-          type="radio"
-          name="venditore"
-          id=""
-          value="venditore"
-          onChange={(e) => setValue(e.target.value)}
-        />
-        <label htmlFor="venditore">Venditore</label>
-        <button type="submit">send</button>
-      </form>
-    </div>
-  );
-};
 
 //Metto un nome a caso, ma dovrebbe essere l'autenticazione dell'email
 const Authentication = () => {
