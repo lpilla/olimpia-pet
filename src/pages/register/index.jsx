@@ -11,6 +11,7 @@ import {
   Typography,
   Radio,
 } from "@material-tailwind/react";
+import AnimalSelect from "../../components/animalSelect";
 
 const Register = () => {
   const [nome, setNome] = useState("");
@@ -19,6 +20,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [data, setData] = useState({});
   const [type, setType] = useState(false);
+  const [animal, setAnimal] = useState("");
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
@@ -30,6 +32,7 @@ const Register = () => {
       email: email,
       password: password,
       type: type,
+      animal: animal,
     });
     handleNext();
   };
@@ -156,13 +159,15 @@ const Register = () => {
             </Button>
           </div>
         )}
+        {activeStep === 2 && <AnimalSelection></AnimalSelection>}
       </div>
       <h1>I dati inseriti sono: </h1>
       <h5>Nome:{data.nome}</h5>
       <h5>Cognome:{data.cognome}</h5>
       <h5>Email:{data.email}</h5>
       <h5>Password:{data.password}</h5>
-      <h5>type :{data.type}</h5>
+      <h5>Type:{data.type}</h5>
+      <h5>Animal: </h5>
     </div>
   );
 };
@@ -196,9 +201,18 @@ const Authentication = () => {
 };
 
 const AnimalSelection = () => {
+  const animal = ["Cane", "Gatto", "Criceto", "Pappagallo", "Scimmia"];
+  const [value, setValue] = useState("");
+
+  const catchValue = (v) => {
+    setValue(v);
+  };
+
   return (
-    <div>
-      <h2>Ciao</h2>
+    <div className="flex flex-col items-center">
+      <h2>Select your animal</h2>
+      <AnimalSelect lista={animal} onSendValue={catchValue} />
+      <b>{value}</b>
     </div>
   );
 };
