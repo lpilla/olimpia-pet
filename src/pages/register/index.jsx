@@ -9,7 +9,7 @@ import {
   Checkbox,
   Button,
   Typography,
-  Radio
+  Radio,
 } from "@material-tailwind/react";
 
 const Register = () => {
@@ -181,7 +181,7 @@ const Authentication = () => {
           type="text"
           placeholder="Codice di 6 cifre"
         />
-        <h4 className="objAuthentication">
+        <h4 className="objAuthenticat<ion">
           Non hai ricevuto nessuna email?
           <Link className="link_to_register" to="/register">
             Richiedi nuovo codice
@@ -191,6 +191,14 @@ const Authentication = () => {
           Torna indietro
         </button>
       </form>
+    </div>
+  );
+};
+
+const AnimalSelection = () => {
+  return (
+    <div>
+      <h2>Ciao</h2>
     </div>
   );
 };
