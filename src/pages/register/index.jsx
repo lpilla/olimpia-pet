@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
@@ -38,6 +38,21 @@ const Register = () => {
   };
   const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
   const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
+
+  const catchAnimal = (v) => {
+    setAnimal(v);
+  };
+
+  useEffect(() => {
+    setData({
+      nome: nome,
+      cognome: cognome,
+      email: email,
+      password: password,
+      type: type,
+      animal: animal,
+    });
+  }, [animal]);
 
   return (
     <div className="flex flex-col items-center max-w-8xl mx-auto">
@@ -159,7 +174,9 @@ const Register = () => {
             </Button>
           </div>
         )}
-        {activeStep === 2 && <AnimalSelection></AnimalSelection>}
+        {activeStep === 2 && (
+          <AnimalSelection onSendAnimal={catchAnimal}></AnimalSelection>
+        )}
       </div>
       <h1>I dati inseriti sono: </h1>
       <h5>Nome:{data.nome}</h5>
@@ -167,13 +184,12 @@ const Register = () => {
       <h5>Email:{data.email}</h5>
       <h5>Password:{data.password}</h5>
       <h5>Type:{data.type}</h5>
-      <h5>Animal: </h5>
+      <h5>Animal:{data.animal} </h5>
     </div>
   );
 };
 export default Register;
 
-//Metto un nome a caso, ma dovrebbe essere l'autenticazione dell'email
 const Authentication = () => {
   return (
     <div>
@@ -200,7 +216,7 @@ const Authentication = () => {
   );
 };
 
-const AnimalSelection = () => {
+const AnimalSelection = ({ onSendAnimal }) => {
   const animal = ["Cane", "Gatto", "Criceto", "Pappagallo", "Scimmia"];
   const [value, setValue] = useState("");
 
@@ -208,11 +224,18 @@ const AnimalSelection = () => {
     setValue(v);
   };
 
+  const sendAnimal = () => {
+    onSendAnimal?.(value);
+  };
+
+  useEffect(() => {
+    sendAnimal();
+  }, [value]);
+
   return (
     <div className="flex flex-col items-center">
       <h2>Select your animal</h2>
       <AnimalSelect lista={animal} onSendValue={catchValue} />
-      <b>{value}</b>
     </div>
   );
 };
