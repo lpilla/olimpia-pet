@@ -81,22 +81,16 @@ const Register = () => {
           <button className="btn_form">Register</button>
         </form>
       )}
-      {step === 2 && <SecondStep data={data} setData={setData} />}
-      {step === 3 && <Authentication />}
-      <h1>I dati inseriti sono: </h1>
-      <h5>Nome:{data.nome}</h5>
-      <h5>Cognome:{data.cognome}</h5>
-      <h5>Email:{data.email}</h5>
-      <h5>Password:{data.password}</h5>
-      <h5>type :{data.type}</h5>
-      <div className="bottoniNextBack">
-        <button className="bottoniNextBack" onClick={() => setStep(1)}>
-          Back
-        </button>
-        <button className="bottoniNextBack" onClick={() => setStep(3)}>
-          Next
-        </button>
-      </div>
+      {step === 2 && <Authentication />}
+      {step === 3 && <AnimalSelection />}
+      {/*
+          <h1>I dati inseriti sono: </h1>
+          <h5>Nome:{data.nome}</h5>
+          <h5>Cognome:{data.cognome}</h5>
+          <h5>Email:{data.email}</h5>
+          <h5>Password:{data.password}</h5>
+          <h5>type :{data.type}</h5>
+        */}
     </div>
   );
 };
@@ -152,6 +146,14 @@ const Authentication = () => {
           Torna indietro
         </button>
       </form>
+    </div>
+  );
+};
+
+const AnimalSelection = () => {
+  return (
+    <div>
+      <h2>Ciao</h2>
     </div>
   );
 };
