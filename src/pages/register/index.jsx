@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 import { useState } from "react";
 import {
   Stepper,
@@ -10,16 +10,17 @@ import {
   Button,
   Typography,
   Radio,
+  IconButton,
 } from "@material-tailwind/react";
 import AnimalSelect from "../../components/animalSelect";
-
+import { FaGoogle, FaApple } from "react-icons/fa";
 const Register = () => {
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [data, setData] = useState({});
-  const [type, setType] = useState(false);
+  const [type, setType] = useState("");
   const [animal, setAnimal] = useState("");
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
@@ -161,21 +162,30 @@ const Register = () => {
                 Sign In
               </a>
             </Typography>
+            <div className="flex gap-4 items-center w-full justify-center mt-2">
+              <IconButton className="bg-[#ea4335] rounded hover:shadow-[#ea4335]/20 focus:shadow-[#ea4335]/20 active:shadow-[#ea4335]/10">
+                <FaGoogle className="w-4 h-4" />
+              </IconButton>
+              <IconButton className="bg-[#000000] rounded hover:shadow-[#ea4335]/20 focus:shadow-[#ea4335]/20 active:shadow-[#ea4335]/10">
+                <FaApple className="w-4 h-4" />
+              </IconButton>
+            </div>
           </form>
         )}
       </Card>
       {activeStep === 1 && (
         <Authentication changeStep={changeStep} handlePrev={handlePrev} />
       )}
-
-      {/*<h1>I dati inseriti sono: </h1>
+      {activeStep === 2 && type === "cliente" && (
+        <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
+      )}
+      {/* <h1>I dati inseriti sono: </h1>
       <h5>Nome:{data.nome}</h5>
       <h5>Cognome:{data.cognome}</h5>
       <h5>Email:{data.email}</h5>
       <h5>Password:{data.password}</h5>
       <h5>Type:{data.type}</h5>
-      <h5>Animal:{data.animal} </h5>
-      */}
+      <h5>Animal:{data.animal} </h5>*/}
     </div>
   );
 };
@@ -226,7 +236,7 @@ const Authentication = ({ changeStep, handlePrev }) => {
   );
 };
 
-const AnimalSelection = ({ onSendAnimal }) => {
+const AnimalSelection = ({ onSendAnimal, changeStep, handlePrev }) => {
   const animal = ["Cane", "Gatto", "Criceto", "Pappagallo", "Scimmia"];
   const [value, setValue] = useState("");
 
@@ -243,9 +253,27 @@ const AnimalSelection = ({ onSendAnimal }) => {
   }, [value]);
 
   return (
-    <div className="flex flex-col items-center">
-      <h2>Select your animal</h2>
-      <AnimalSelect lista={animal} onSendValue={catchValue} />
+    <div className="flex flex-col items-center max-w-md mx-auto">
+      <Form
+        onSubmit={changeStep}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
+        <h2>Select your animal</h2>
+        <AnimalSelect lista={animal} onSendValue={catchValue} />
+        <div className="flex items-center justify-between">
+          <Button
+            className="mt-6"
+            type="button"
+            color="red"
+            onClick={handlePrev}
+          >
+            Indietro
+          </Button>
+          <Button className="mt-6" type="submit">
+            Conferma
+          </Button>
+        </div>
+      </Form>
     </div>
   );
 };

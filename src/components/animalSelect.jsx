@@ -17,8 +17,8 @@ const AnimalSelect = ({ lista, onSendValue }) => {
   };
 
   return (
-    <div className="w-72">
-      <Select size="lg" onChange={changeValue}>
+    <div className="w-72 mt-3">
+      <Select size="lg" onChange={changeValue} label="Animali">
         {lista?.map((anim) => {
           return (
             <Option key={anim} value={anim}>
