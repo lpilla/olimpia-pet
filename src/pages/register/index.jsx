@@ -14,6 +14,8 @@ import {
 } from "@material-tailwind/react";
 import AnimalSelect from "../../components/animalSelect";
 import { FaGoogle, FaApple } from "react-icons/fa";
+import AnimalCard from "../../components/animalCard";
+
 const Register = () => {
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
@@ -177,7 +179,10 @@ const Register = () => {
         <Authentication changeStep={changeStep} handlePrev={handlePrev} />
       )}
       {activeStep === 2 && type === "cliente" && (
-        <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
+        <>
+          <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
+          <AnimalCard />
+        </>
       )}
       {/* <h1>I dati inseriti sono: </h1>
       <h5>Nome:{data.nome}</h5>
