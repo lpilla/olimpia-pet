@@ -13,7 +13,7 @@ const AnimalCard = () => {
   fetch("https://dog.ceo/api/breeds/list/all")
     .then((response) => response.json())
     .then((json) => {
-      setListaDog(json);
+      setListaDog(json.message);
     });
 
   return (
