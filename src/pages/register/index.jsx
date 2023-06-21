@@ -55,14 +55,25 @@ const Register = () => {
   }, [animal]);
 
   return (
-    <div className="flex flex-col items-center max-w-8xl mx-auto">
+    <div className="flex flex-col items-center max-w-8xl mx-auto ">
+      <div className="w-full py-4 px-8">
+        <Stepper
+          activeStep={activeStep}
+          isLastStep={(value) => setIsLastStep(value)}
+          isFirstStep={(value) => setIsFirstStep(value)}
+        >
+          <Step>1</Step>
+          <Step>2</Step>
+          <Step>3</Step>
+        </Stepper>
+      </div>
+      <Typography variant="h4" color="blue-gray" className="text-left">
+        Registrati
+      </Typography>
+      <Typography color="gray" className="mt-1 font-normal text-left">
+        Inserisci i tuoi dati
+      </Typography>
       <Card color="transparent" shadow={false}>
-        <Typography variant="h4" color="blue-gray">
-          Registrati
-        </Typography>
-        <Typography color="gray" className="mt-1 font-normal">
-          Enter your details to register.
-        </Typography>
         {activeStep === 0 && (
           <form
             action=""
@@ -153,64 +164,63 @@ const Register = () => {
           </form>
         )}
       </Card>
-      {activeStep === 1 && <Authentication />}
-      <div className="w-full py-4 px-8">
-        <Stepper
-          activeStep={activeStep}
-          isLastStep={(value) => setIsLastStep(value)}
-          isFirstStep={(value) => setIsFirstStep(value)}
-        >
-          <Step onClick={() => setActiveStep(0)}>1</Step>
-          <Step onClick={() => setActiveStep(1)}>2</Step>
-          <Step onClick={() => setActiveStep(2)}>3</Step>
-        </Stepper>
-        {activeStep === 1 && (
-          <div className="mt-16 flex justify-between">
-            <Button onClick={handlePrev} disabled={isFirstStep}>
-              Prev
-            </Button>
-            <Button onClick={handleNext} disabled={isLastStep}>
-              Next
-            </Button>
-          </div>
-        )}
-        {activeStep === 2 && (
-          <AnimalSelection onSendAnimal={catchAnimal}></AnimalSelection>
-        )}
-      </div>
-      <h1>I dati inseriti sono: </h1>
+      {activeStep === 1 && (
+        <Authentication changeStep={changeStep} handlePrev={handlePrev} />
+      )}
+
+      {/*<h1>I dati inseriti sono: </h1>
       <h5>Nome:{data.nome}</h5>
       <h5>Cognome:{data.cognome}</h5>
       <h5>Email:{data.email}</h5>
       <h5>Password:{data.password}</h5>
       <h5>Type:{data.type}</h5>
       <h5>Animal:{data.animal} </h5>
+      */}
     </div>
   );
 };
 export default Register;
 
-const Authentication = () => {
+const Authentication = ({ changeStep, handlePrev }) => {
   return (
-    <div>
-      <form className="divAuthentication" onSubmit={() => setStep(3)}>
-        <h2 className="objAuthentication">
+    <div className="flex max-w-md mx-auto p-8 items-left max-w-8xl">
+      <form
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        onSubmit={changeStep}
+      >
+        <h2 className="text-xl font-bold mb-4">
           Controllare la posta ed inserisci il codice ricevuto
         </h2>
-        <input
-          className="objAuthentication"
-          type="text"
-          placeholder="Codice di 6 cifre"
-        />
-        <h4 className="objAuthenticat<ion">
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-bold mb-2"
+            htmlFor="confirmationCode"
+          >
+            Codice di 6 cifre
+          </label>
+          <div className="w-full" id="confirmationCode" type="text">
+            <Input label="Codice Conferma " />
+          </div>
+        </div>
+        <h4 className="text-sm mb-4">
           Non hai ricevuto nessuna email?
-          <Link className="link_to_register" to="/register">
+          <Link className="text-blue-500 hover:text-blue-700" to="/register">
             Richiedi nuovo codice
           </Link>
         </h4>
-        <button className="objAuthentication" onClick={() => setStep(1)}>
-          Torna indietro
-        </button>
+        <div className="flex items-center justify-between">
+          <Button
+            className="mt-6"
+            type="button"
+            color="red"
+            onClick={handlePrev}
+          >
+            Indietro
+          </Button>
+          <Button className="mt-6" type="submit">
+            Conferma
+          </Button>
+        </div>
       </form>
     </div>
   );
