@@ -293,16 +293,18 @@ const AnimalDogList = () => {
     setSelectedDog(breed);
   };
 
-  fetch("https://dog.ceo/api/breeds/list/all")
-    .then((response) => response.json())
-    .then((json) => {
-      const keys = Object.keys(json.message);
-      setListaDog(keys);
-    });
+  useEffect(() => {
+    fetch("https://dog.ceo/api/breeds/list/all")
+      .then((response) => response.json())
+      .then((json) => {
+        const keys = Object.keys(json.message);
+        setListaDog(keys);
+      });
+  }, []);
 
   return (
-    <div className="flex flex-wrap h-80 w-90 ">
-      <div className="grid grid-cols-3 gap-4">
+    <div className="flex flex-wrap h-[725px] w-90 overflow-auto rounded-lg border-solid border-4 border-red-500 mb-4">
+      <div className="grid grid-cols-3 gap-4 p-4">
         {listaDog.map((dog) => (
           <div key={dog} onClick={() => handleClick(dog)}>
             <AnimalCard
