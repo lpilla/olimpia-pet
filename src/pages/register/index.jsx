@@ -29,15 +29,20 @@ const Register = () => {
   const [isFirstStep, setIsFirstStep] = React.useState(false);
   const changeStep = (e) => {
     e.preventDefault();
-    setData({
-      nome: nome,
-      cognome: cognome,
-      email: email,
-      password: password,
-      type: type,
-      animal: animal,
-    });
-    handleNext();
+    if (isChecked == false) {
+      console.log("non è checked");
+      setShowWarning(true);
+    } else {
+      setData({
+        nome: nome,
+        cognome: cognome,
+        email: email,
+        password: password,
+        type: type,
+        animal: animal,
+      });
+      handleNext();
+    }
   };
   const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
   const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
@@ -56,6 +61,13 @@ const Register = () => {
       animal: animal,
     });
   }, [animal]);
+
+  const [isChecked, setIsChecked] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+    setShowWarning(false);
+  };
 
   return (
     <div className="flex flex-col items-center max-w-8xl mx-auto justify-center ">
@@ -150,8 +162,14 @@ const Register = () => {
                 </Typography>
               }
               containerProps={{ className: "-ml-2.5 " }}
+              checked={isChecked}
+              onChange={handleCheckboxChange}
             />
-
+            {showWarning && (
+              <Typography variant="small" color="red">
+                Please agree to the Terms and Conditions!
+              </Typography>
+            )}
             <Button className="mt-6" fullWidth type="submit">
               Register
             </Button>
@@ -175,7 +193,7 @@ const Register = () => {
           </form>
         )}
       </Card>
-      {activeStep === 1 && (
+      {activeStep === 1 && isChecked && (
         <Authentication changeStep={changeStep} handlePrev={handlePrev} />
       )}
       {activeStep === 2 && type === "cliente" && (
