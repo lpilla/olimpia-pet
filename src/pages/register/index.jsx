@@ -181,7 +181,7 @@ const Register = () => {
       {activeStep === 2 && type === "cliente" && (
         <>
           <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
-          <AnimalDogList />
+          {animal === "Cane" && <AnimalDogList />}
         </>
       )}
       {/* <h1>I dati inseriti sono: </h1>
@@ -285,6 +285,14 @@ const AnimalSelection = ({ onSendAnimal, changeStep, handlePrev }) => {
 
 const AnimalDogList = () => {
   const [listaDog, setListaDog] = useState([]);
+  //da modificare, selezione cane
+  const [selectedDog, setSelectedDog] = useState(null);
+  //da modificare funzione che seleziona che tipo di cane l'utente voglia
+  const handleClick = (breed) => {
+    console.log(breed);
+    setSelectedDog(breed);
+  };
+
   fetch("https://dog.ceo/api/breeds/list/all")
     .then((response) => response.json())
     .then((json) => {
@@ -293,12 +301,18 @@ const AnimalDogList = () => {
     });
 
   return (
-    <div>
-      {listaDog.map((dog) => (
-        <AnimalCard key={dog} breed={dog} titolo={dog} />
-      ))}
-
-      <pre>{JSON.stringify(listaDog, null, 2)}</pre>
+    <div className="flex flex-wrap h-80 w-90 ">
+      <div className="grid grid-cols-3 gap-4">
+        {listaDog.map((dog) => (
+          <div key={dog} onClick={() => handleClick(dog)}>
+            <AnimalCard
+              breed={dog}
+              titolo={dog}
+              selected={dog === selectedDog}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
