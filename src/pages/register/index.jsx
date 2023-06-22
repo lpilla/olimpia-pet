@@ -58,7 +58,7 @@ const Register = () => {
   }, [animal]);
 
   return (
-    <div className="flex flex-col items-center max-w-8xl mx-auto ">
+    <div className="flex flex-col items-center max-w-8xl mx-auto justify-center ">
       <div className="w-full py-4 px-8">
         <Stepper
           activeStep={activeStep}
@@ -117,7 +117,7 @@ const Register = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div className="flex gap-10">
+            <div className="flex gap-10 justify-center">
               <Radio
                 id="cliente"
                 name="type"
@@ -138,7 +138,7 @@ const Register = () => {
                 <Typography
                   variant="small"
                   color="gray"
-                  className="flex items-center font-normal"
+                  className="flex w-full items-center font-normal justify-center"
                 >
                   I agree the
                   <a
@@ -149,7 +149,7 @@ const Register = () => {
                   </a>
                 </Typography>
               }
-              containerProps={{ className: "-ml-2.5" }}
+              containerProps={{ className: "-ml-2.5 " }}
             />
 
             <Button className="mt-6" fullWidth type="submit">
