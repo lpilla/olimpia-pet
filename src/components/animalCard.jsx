@@ -2,20 +2,11 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Typography,
   Button,
 } from "@material-tailwind/react";
-import { useState } from "react";
 
-const AnimalCard = () => {
-  const [listaDog, setListaDog] = useState([]);
-  fetch("https://dog.ceo/api/breeds/list/all")
-    .then((response) => response.json())
-    .then((json) => {
-      setListaDog(json.message);
-    });
-
+const AnimalCard = ({ titolo }) => {
   return (
     <>
       <Card className="mt-6 w-96">
@@ -28,15 +19,11 @@ const AnimalCard = () => {
         </CardHeader>
         <CardBody>
           <Typography variant="h5" color="blue-gray" className="mb-2">
-            UI/UX Review Check
+            {titolo}
           </Typography>
-          <Typography>Cane</Typography>
+          <Typography>{titolo}</Typography>
         </CardBody>
-        <CardFooter className="pt-0">
-          <Button>Read More</Button>
-        </CardFooter>
       </Card>
-      <pre>{JSON.stringify(listaDog, null, 2)}</pre>
     </>
   );
 };

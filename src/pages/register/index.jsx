@@ -181,7 +181,7 @@ const Register = () => {
       {activeStep === 2 && type === "cliente" && (
         <>
           <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
-          <AnimalCard />
+          <AnimalDogList />
         </>
       )}
       {/* <h1>I dati inseriti sono: </h1>
@@ -279,6 +279,26 @@ const AnimalSelection = ({ onSendAnimal, changeStep, handlePrev }) => {
           </Button>
         </div>
       </Form>
+    </div>
+  );
+};
+
+const AnimalDogList = () => {
+  const [listaDog, setListaDog] = useState([]);
+  fetch("https://dog.ceo/api/breeds/list/all")
+    .then((response) => response.json())
+    .then((json) => {
+      const keys = Object.keys(json.message);
+      setListaDog(keys);
+    });
+
+  return (
+    <div>
+      {listaDog.map((dog) => (
+        <AnimalCard key={dog} breed={dog} titolo={dog} />
+      ))}
+
+      <pre>{JSON.stringify(listaDog, null, 2)}</pre>
     </div>
   );
 };
