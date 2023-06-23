@@ -15,7 +15,10 @@ import {
 import AnimalSelect from "../../components/animalSelect";
 import { FaGoogle, FaApple } from "react-icons/fa";
 import AnimalCard from "../../components/animalCard";
-
+import { db } from "../../lib/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { auth } from "../../lib/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 const Register = () => {
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
@@ -27,6 +30,7 @@ const Register = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
+
   const changeStep = (e) => {
     e.preventDefault();
     if (isChecked == false) {
@@ -69,6 +73,41 @@ const Register = () => {
     setShowWarning(false);
   };
 
+  //caricamento dati su database
+  const addData = async (e) => {
+    e.preventDefault();
+
+    try {
+      const docRef = await addDoc(collection(db, "users"), {
+        nome: data.nome,
+        cognome: data.cognome,
+        email: data.email,
+        password: data.password,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+  const sendRegister = async (e) => {
+    e.preventDefault();
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        addData();
+        //navigate("/login");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        // ..
+      });
+  };
+
+
   return (
     <div className="flex flex-col items-center max-w-8xl mx-auto justify-center ">
       <div className="w-full py-4 px-8">
@@ -93,7 +132,7 @@ const Register = () => {
           <form
             action=""
             className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
-            onSubmit={changeStep}
+            onSubmit={sendRegister}
           >
             <div className="mb-4 flex flex-col gap-6">
               <Input
@@ -175,12 +214,7 @@ const Register = () => {
             </Button>
             <Typography color="gray" className="mt-4 text-center font-normal">
               Already have an account?{" "}
-              <a
-                href="#"
-                className="font-medium text-blue-500 transition-colors hover:text-blue-700"
-              >
-                Sign In
-              </a>
+              <Link to={"/login"} className="font-medium text-blue-500 transition-colors hover:text-blue-700">Sign In</Link>
             </Typography>
             <div className="flex gap-4 items-center w-full justify-center mt-2">
               <IconButton className="bg-[#ea4335] rounded hover:shadow-[#ea4335]/20 focus:shadow-[#ea4335]/20 active:shadow-[#ea4335]/10">
@@ -202,13 +236,13 @@ const Register = () => {
           {animal === "Cane" && <AnimalDogList />}
         </>
       )}
-      {/* <h1>I dati inseriti sono: </h1>
+      <h1>I dati inseriti sono: </h1>
       <h5>Nome:{data.nome}</h5>
       <h5>Cognome:{data.cognome}</h5>
       <h5>Email:{data.email}</h5>
       <h5>Password:{data.password}</h5>
       <h5>Type:{data.type}</h5>
-      <h5>Animal:{data.animal} </h5>*/}
+      <h5>Animal:{data.animal} </h5>
     </div>
   );
 };

@@ -1,39 +1,75 @@
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { auth } from "../../lib/firebase";
+import { NavLink, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onLogin = (e) => {
+    e.preventDefault();
+    console.log("sono dentro");
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("siii");
+        navigate("/home");
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
+
   return (
-    <div>
-      <form action="">
-        <h3>Login</h3>
-        <label htmlFor="username"></label>
-        <input type="text" placeholder="Inserisci Email" id="username" />
-        <h6>
-          <Link to="/register">Email dimenticata?</Link>
-        </h6>
-        <label htmlFor="password"></label>
-        <input type="password" placeholder="Inserisci Password" />
-        <h6>
-          <Link to="/register">Password dimenticata?</Link>
-        </h6>
-        <button>Accedi</button>
-        <h4>
-          Non hai un account? <Link to="/register"> Registrati</Link>
-        </h4>
-        {
-          <div className="social">
-            <div className="circle">
-              <img src="" alt="Google" />
-            </div>
-            <div className="circle">
-              <img src="" alt="Facebook" />
-            </div>
-            <div className="circle">
-              <img src="" alt="Apple" />
-            </div>
+    <>
+      <main>
+        <section>
+          <div>
+            <p> FocusApp </p>
+
+            <form>
+              <div>
+                <label htmlFor="email-address">Email address</label>
+                <input
+                  id="email-address"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="Email address"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="password">Password</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <button onClick={onLogin}>Login</button>
+              </div>
+            </form>
+
+            <p className="text-sm text-white text-center">
+              No account yet? <NavLink to="/signup">Sign up</NavLink>
+            </p>
           </div>
-        }
-      </form>
-    </div>
+        </section>
+      </main>
+    </>
   );
 };
 
