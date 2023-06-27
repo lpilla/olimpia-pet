@@ -15,6 +15,7 @@ import {
 import AnimalSelect from "../../components/animalSelect";
 import { FaGoogle, FaApple } from "react-icons/fa";
 import AnimalCard from "../../components/animalCard";
+import AnimalName from "../../components/AnimalName";
 import { db } from "../../lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { auth } from "../../lib/firebase";
@@ -27,6 +28,9 @@ const Register = () => {
   const [data, setData] = useState({});
   const [type, setType] = useState("");
   const [animal, setAnimal] = useState("");
+  const [breed, setBreed] = useState("");
+  const [listaAnimal, setListaAnimal] = useState([]);
+  const [open, setOpen] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
@@ -43,7 +47,6 @@ const Register = () => {
         email: email,
         password: password,
         type: type,
-        animal: animal,
       });
       handleNext();
     }
@@ -54,6 +57,25 @@ const Register = () => {
   const catchAnimal = (v) => {
     setAnimal(v);
   };
+  const catchBreed = (v) => {
+    setBreed(v);
+    setOpen(!open);
+  };
+
+  const catchOpen = (v) => {
+    setOpen(v);
+  };
+
+  const catchNewAnimal = (v) => {
+    const [nome, desc] = v;
+    if (!nome) {
+      return;
+    }
+    setListaAnimal([
+      ...listaAnimal,
+      { nome: nome, descrizione: desc, animal: animal, breed: breed },
+    ]);
+  };
 
   useEffect(() => {
     setData({
@@ -62,9 +84,9 @@ const Register = () => {
       email: email,
       password: password,
       type: type,
-      animal: animal,
+      lista: listaAnimal,
     });
-  }, [animal]);
+  }, [listaAnimal]);
 
   const [isChecked, setIsChecked] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
@@ -107,7 +129,6 @@ const Register = () => {
       });
   };
 
-
   return (
     <div className="flex flex-col items-center max-w-8xl mx-auto justify-center ">
       <div className="w-full py-4 px-8">
@@ -132,7 +153,7 @@ const Register = () => {
           <form
             action=""
             className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
-            onSubmit={sendRegister}
+            onSubmit={changeStep}
           >
             <div className="mb-4 flex flex-col gap-6">
               <Input
@@ -214,7 +235,12 @@ const Register = () => {
             </Button>
             <Typography color="gray" className="mt-4 text-center font-normal">
               Already have an account?{" "}
-              <Link to={"/login"} className="font-medium text-blue-500 transition-colors hover:text-blue-700">Sign In</Link>
+              <Link
+                to={"/login"}
+                className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+              >
+                Sign In
+              </Link>
             </Typography>
             <div className="flex gap-4 items-center w-full justify-center mt-2">
               <IconButton className="bg-[#ea4335] rounded hover:shadow-[#ea4335]/20 focus:shadow-[#ea4335]/20 active:shadow-[#ea4335]/10">
@@ -233,7 +259,10 @@ const Register = () => {
       {activeStep === 2 && type === "cliente" && (
         <>
           <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
-          {animal === "Cane" && <AnimalDogList />}
+          {animal === "Cane" && <AnimalDogList onSendBreed={catchBreed} />}
+          {open ? (
+            <AnimalName sendOpen={catchOpen} sendValue={catchNewAnimal} />
+          ) : null}
         </>
       )}
       <h1>I dati inseriti sono: </h1>
@@ -242,7 +271,7 @@ const Register = () => {
       <h5>Email:{data.email}</h5>
       <h5>Password:{data.password}</h5>
       <h5>Type:{data.type}</h5>
-      <h5>Animal:{data.animal} </h5>
+      <h5>Lista: {JSON.stringify(data.lista, 2, null)}</h5>
     </div>
   );
 };
@@ -335,7 +364,7 @@ const AnimalSelection = ({ onSendAnimal, changeStep, handlePrev }) => {
   );
 };
 
-const AnimalDogList = () => {
+const AnimalDogList = ({ onSendBreed }) => {
   const [listaDog, setListaDog] = useState([]);
   //da modificare, selezione cane
   const [selectedDog, setSelectedDog] = useState(null);
@@ -343,6 +372,7 @@ const AnimalDogList = () => {
   const handleClick = (breed) => {
     console.log(breed);
     setSelectedDog(breed);
+    onSendBreed(breed);
   };
 
   useEffect(() => {
