@@ -4,6 +4,11 @@ import { useMap, useMapEvents } from "react-leaflet/hooks";
 import face from "./face-2.jpg";
 import {
   Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Button,
   List,
   ListItem,
   Accordion,
@@ -11,11 +16,23 @@ import {
   AccordionBody,
   Carousel,
   Avatar,
+  Tooltip,
+  IconButton,
 } from "@material-tailwind/react";
+import {
+  BanknotesIcon,
+  StarIcon,
+  HeartIcon,
+  WifiIcon,
+  HomeIcon,
+  TvIcon,
+  FireIcon,
+} from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 
 import L from "leaflet";
+import card from "@material-tailwind/react/theme/components/card";
 function MapController({ position, setPosition }) {
   const map = useMap();
   const mapEvents = useMapEvents({
@@ -39,7 +56,10 @@ export default function Home() {
       {
         id: 3,
         coordinates: [p.latitude, p.longitude],
-        content: "giorgio",
+        name: "giorgio",
+        description:
+          "The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to &quot;Naviglio&quot; where you can enjoy the main night life in Barcelona.",
+        icon: "https://media.istockphoto.com/id/1171733307/it/foto/veterinario-con-cane-e-gatto-cucciolo-e-gattino-dal-dottore.jpg?s=612x612&w=0&k=20&c=3M18OZ2x-fJcx88S9FHefEx4OItXbVEJ-d3iQZuQXmA=",
       },
     ]);
   };
@@ -95,14 +115,43 @@ export default function Home() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {markers.map((marker) => {
+          const icon = L.icon({
+            iconUrl: marker.icon,
+            iconSize: [32, 32], // Adjust the size according to your icon
+          });
           return (
-            <Marker position={marker.coordinates} icon={customIcon}>
-              <Popup>
-                <p>{marker.content}</p>
-                <p>{marker.content}</p>
-                <p>{marker.content}</p>
-                <p>{marker.content}</p>
-                <p>{marker.content}</p>
+            <Marker position={marker.coordinates} icon={icon}>
+              <Popup
+                minWidth={1000}
+                closeOnEscapeKey
+                closeButton={false}
+                className="bg-white"
+              >
+                {
+                  <Card className="mt-6 w-full h-full shadow-none">
+                    <CardHeader color="blue-gray" className="relative h-56">
+                      <img
+                        src={marker.icon}
+                        alt="img-blur-shadow"
+                        layout="fill"
+                        className="w-full h-full object-cover"
+                      />
+                    </CardHeader>
+                    <CardBody>
+                      <Typography
+                        variant="h5"
+                        color="blue-gray"
+                        className="mb-2"
+                      >
+                        {marker.name}
+                      </Typography>
+                      <Typography>{marker.description}</Typography>
+                    </CardBody>
+                    <CardFooter className="pt-0">
+                      <Button>Scopri di più</Button>
+                    </CardFooter>
+                  </Card>
+                }
               </Popup>
             </Marker>
           );
