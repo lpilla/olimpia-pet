@@ -2,6 +2,7 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useMap, useMapEvents } from "react-leaflet/hooks";
 import face from "./face-2.jpg";
+import { UserContext } from "../../context/UserContext";
 import {
   Card,
   CardHeader,
@@ -29,7 +30,7 @@ import {
   FireIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import L from "leaflet";
 import card from "@material-tailwind/react/theme/components/card";
@@ -94,6 +95,8 @@ export default function Home() {
       "https://static.vecteezy.com/system/resources/previews/004/705/198/original/store-icon-design-symbol-market-retail-building-storefront-for-ecommerce-free-vector.jpg",
     iconSize: [32, 32], // Adjust the size according to your icon
   });
+  const { user } = useContext(UserContext);
+  console.log(user);
   return (
     <div>
       <MapContainer
@@ -198,7 +201,7 @@ export default function Home() {
                   </div>
                   <div className="mt-[-30px]">
                     <h4 className="text-xl font-bold leading-0 ">
-                      Lorenzo Pilla
+                      Ciao {user.email}
                     </h4>
                     <p className="text-sm">2 animali</p>
                   </div>
