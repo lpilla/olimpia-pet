@@ -10,7 +10,9 @@ import {
   Typography,
   Button,
   List,
+  ListItemPrefix,
   ListItem,
+  Checkbox,
   Accordion,
   AccordionHeader,
   AccordionBody,
@@ -88,12 +90,6 @@ export default function Home() {
       console.log("Geolocation is not supported by this browser.");
     }
   };
-  // Define the custom icon
-  const customIcon = L.icon({
-    iconUrl:
-      "https://static.vecteezy.com/system/resources/previews/004/705/198/original/store-icon-design-symbol-market-retail-building-storefront-for-ecommerce-free-vector.jpg",
-    iconSize: [32, 32], // Adjust the size according to your icon
-  });
   return (
     <div>
       <MapContainer
@@ -231,6 +227,74 @@ export default function Home() {
           className="h-full w-full object-cover"
         />
       </Carousel>*/}
+        </Card>
+        <Card className="bg-[#D9D9D9] fixed bottom-4 left-4 h-auto w-full max-w-[20rem] shadow-xl shadow-blue-gray-900/5 z-[9999]">
+          <List>
+            <Typography variant="h2" className="px-3 py-2 text-black">
+              Filtri
+            </Typography>
+
+            <ListItem className="p-0">
+              <label
+                htmlFor="vertical-list-react"
+                className="px-3 py-2 flex items-center w-full cursor-pointer"
+              >
+                <ListItemPrefix className="mr-3">
+                  <Checkbox
+                    id="vertical-list-react"
+                    ripple={false}
+                    className="hover:before:opacity-0"
+                    containerProps={{
+                      className: "p-0",
+                    }}
+                  />
+                </ListItemPrefix>
+                <Typography color="blue-gray" className="font-medium">
+                  React.js
+                </Typography>
+              </label>
+            </ListItem>
+            <ListItem className="p-0">
+              <label
+                htmlFor="vertical-list-vue"
+                className="px-3 py-2 flex items-center w-full cursor-pointer"
+              >
+                <ListItemPrefix className="mr-3">
+                  <Checkbox
+                    id="vertical-list-vue"
+                    ripple={false}
+                    className="hover:before:opacity-0"
+                    containerProps={{
+                      className: "p-0",
+                    }}
+                  />
+                </ListItemPrefix>
+                <Typography color="blue-gray" className="font-medium">
+                  Vue.js
+                </Typography>
+              </label>
+            </ListItem>
+            <ListItem className="p-0">
+              <label
+                htmlFor="vertical-list-svelte"
+                className="px-3 py-2 flex items-center w-full cursor-pointer"
+              >
+                <ListItemPrefix className="mr-3">
+                  <Checkbox
+                    id="vertical-list-svelte"
+                    ripple={false}
+                    className="hover:before:opacity-0"
+                    containerProps={{
+                      className: "p-0",
+                    }}
+                  />
+                </ListItemPrefix>
+                <Typography color="blue-gray" className="font-medium">
+                  Svelte.js
+                </Typography>
+              </label>
+            </ListItem>
+          </List>
         </Card>
         <MapController position={location} />
       </MapContainer>
