@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Form, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, createContext } from "react";
 import {
   Stepper,
   Step,
@@ -11,6 +11,8 @@ import {
   Typography,
   Radio,
   IconButton,
+  InformationCircleIcon,
+  Alert,
 } from "@material-tailwind/react";
 import AnimalSelect from "../../components/animalSelect";
 import { FaGoogle, FaApple } from "react-icons/fa";
@@ -37,19 +39,16 @@ const Register = () => {
 
   const changeStep = (e) => {
     e.preventDefault();
-    if (isChecked == false) {
-      console.log("non è checked");
-      setShowWarning(true);
-    } else {
-      setData({
-        nome: nome,
-        cognome: cognome,
-        email: email,
-        password: password,
-        type: type,
-      });
-      handleNext();
-    }
+
+    setData({
+      nome: nome,
+      cognome: cognome,
+      email: email,
+      password: password,
+      type: type,
+      animal: animal,
+    });
+    handleNext();
   };
   const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
   const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
@@ -89,10 +88,11 @@ const Register = () => {
   }, [listaAnimal]);
 
   const [isChecked, setIsChecked] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
+  const [showWarningTerms, setShowWarningTerms] = useState(false);
+
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
-    setShowWarning(false);
+    setShowWarningTerms(false);
   };
 
   //caricamento dati su database
@@ -128,6 +128,36 @@ const Register = () => {
         // ..
       });
   };
+  function allDataInserted() {
+    if (
+      nome != "" &&
+      cognome != "" &&
+      email != "" &&
+      password != "" &&
+      type != ""
+    ) {
+      console.log("dati inseriti");
+      return true;
+    } else {
+      console.log("dati non inseriti");
+      return false;
+    }
+  }
+
+  const handleSubmit = (e) => {
+    //console.log(e);
+    e.preventDefault();
+
+    if (allDataInserted() === true) {
+      changeStep(e);
+    }
+    if (isChecked == false) {
+      console.log("non è checked");
+      setShowWarningTerms(true);
+    } else {
+      console.log("Manca qualche dato nel form!");
+    }
+  };
 
   return (
     <div className="flex flex-col items-center max-w-8xl mx-auto justify-center ">
@@ -153,7 +183,7 @@ const Register = () => {
           <form
             action=""
             className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
-            onSubmit={changeStep}
+            onSubmit={handleSubmit}
           >
             <div className="mb-4 flex flex-col gap-6">
               <Input
@@ -188,6 +218,15 @@ const Register = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {/*<Typography
+                variant="small"
+                color="gray"
+                className="flex items-center gap-1 font-normal mt-2"
+              >
+                <InformationCircleIcon className="w-4 h-4 -mt-px" />
+                Use at least 8 characters, one uppercase, one lowercase and one
+                number.
+        </Typography*/}
             </div>
             <div className="flex gap-10 justify-center">
               <Radio
@@ -205,6 +244,11 @@ const Register = () => {
                 onChange={(e) => setType(e.target.value)}
               />
             </div>
+            {showWarningTerms && (
+              <Typography variant="small" color="red">
+                Please agree to the Terms and Conditions!
+              </Typography>
+            )}
             <Checkbox
               label={
                 <Typography
@@ -225,7 +269,7 @@ const Register = () => {
               checked={isChecked}
               onChange={handleCheckboxChange}
             />
-            {showWarning && (
+            {showWarningTerms && (
               <Typography variant="small" color="red">
                 Please agree to the Terms and Conditions!
               </Typography>
@@ -400,3 +444,10 @@ const AnimalDogList = ({ onSendBreed }) => {
     </div>
   );
 };
+
+/*export const RegisterContext = createContext();
+
+export const RegisterProvider = ({ children }) => {
+  const value = sendRegister;
+  return <RegisterContext.Provider value={value}>{children}</RegisterContext.Provider>;
+};*/

@@ -1,29 +1,20 @@
 import React, { useState } from "react";
-import { auth } from "../../lib/firebase";
 import { NavLink, useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 const Login = () => {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { userLogin } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const onLogin = (e) => {
     e.preventDefault();
-    console.log("sono dentro");
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log("siii");
-        navigate("/home");
-        console.log(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
+    if (email && password) {
+      userLogin(email, password);
+      navigate("/home");
+    }
   };
 
   return (
@@ -31,7 +22,7 @@ const Login = () => {
       <main>
         <section>
           <div>
-            <p> FocusApp </p>
+            <h1> Login </h1>
 
             <form>
               <div>

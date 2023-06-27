@@ -2,6 +2,7 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useMap, useMapEvents } from "react-leaflet/hooks";
 import face from "./face-2.jpg";
+import { UserContext } from "../../context/UserContext";
 import {
   Dialog,
   DialogHeader,
@@ -36,7 +37,7 @@ import {
   FireIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import L from "leaflet";
 import card from "@material-tailwind/react/theme/components/card";
@@ -112,6 +113,14 @@ export default function Home() {
       console.log("Geolocation is not supported by this browser.");
     }
   };
+  // Define the custom icon
+  const customIcon = L.icon({
+    iconUrl:
+      "https://static.vecteezy.com/system/resources/previews/004/705/198/original/store-icon-design-symbol-market-retail-building-storefront-for-ecommerce-free-vector.jpg",
+    iconSize: [32, 32], // Adjust the size according to your icon
+  });
+
+
   return (
     <div>
       <MapContainer
@@ -133,7 +142,7 @@ export default function Home() {
         {markers?.map((marker) => {
           return <CustomMarker marker={marker} key={marker.id} />;
         })}
-        ;
+
         <HomeProfile />
         <HomeFilters setMarkers={setMarkers} markers={markers} />
         <MapController position={location} />
