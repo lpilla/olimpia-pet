@@ -46,14 +46,16 @@ import CustomMarker from "../../components/CustomMarker";
 import HomeFilters from "../../components/HomeFilters";
 import HomeProfile from "../../components/HomeProfile";
 
-function MapController({ position, setPosition }) {
+function MapController({ position }) {
   const map = useMap();
   const mapEvents = useMapEvents({
     click: (e) => {
       console.log(e.latlng.lat, e.latlng.lng);
     },
   });
-  map.setView([position.latitude, position.longitude]);
+  useEffect(() => {
+    map.setView([position.latitude, position.longitude]);
+  },[position])
   return null;
 }
 export default function Home() {
@@ -127,6 +129,7 @@ export default function Home() {
         markerZoomAnimation={true}
         center={[location.latitude, location.longitude]}
         zoom={13}
+        minZoom={4}
         doubleClickZoom={false}
         className={"map-container"}
       >
@@ -136,7 +139,9 @@ export default function Home() {
           </button>
         </div>
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            noWrap={true}
+
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {markers?.map((marker) => {
