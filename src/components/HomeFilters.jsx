@@ -21,6 +21,8 @@ const HomeFilters = ({ setMarkers, markers }) => {
   }, [filters]);
 
   const filterBy = () => {
+    if(filters.length === 0)
+      return
     const filteredObjects = myMarkers?.filter((object) =>
       filters.some((category) => object.categories.includes(category))
     );
