@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../lib/firebase";
 
-export const UserContext = createContext();
+export const UserContext = createContext("");
 
 export const useUser = () => {
   const [user, setUser] = useState("");
@@ -34,7 +34,9 @@ export const UserProvider = ({ children }) => {
   const value = useUser();
 
   return (
-    <UserContext.Provider value={value}>
+    <UserContext.Provider 
+// @ts-ignore
+    value={value}>
       {" "}
       <>{children} </>{" "}
     </UserContext.Provider>

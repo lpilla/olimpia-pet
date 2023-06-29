@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Form, Link } from "react-router-dom";
-import { useState, createContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Form, Link, Navigate, useNavigate } from "react-router-dom";
+// @ts-ignore
 import {
   Stepper,
   Step,
@@ -11,7 +11,9 @@ import {
   Typography,
   Radio,
   IconButton,
+  // @ts-ignore
   InformationCircleIcon,
+  // @ts-ignore
   Alert,
 } from "@material-tailwind/react";
 import AnimalSelect from "../../components/animalSelect";
@@ -20,8 +22,7 @@ import AnimalCard from "../../components/animalCard";
 import AnimalName from "../../components/AnimalName";
 import { db } from "../../lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { auth } from "../../lib/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { RegisterContext } from "../../context/registerContext";
 const Register = () => {
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
@@ -101,9 +102,13 @@ const Register = () => {
 
     try {
       const docRef = await addDoc(collection(db, "users"), {
+        // @ts-ignore
         nome: data.nome,
+        // @ts-ignore
         cognome: data.cognome,
+        // @ts-ignore
         email: data.email,
+        // @ts-ignore
         password: data.password,
       });
       console.log("Document written with ID: ", docRef.id);
@@ -111,23 +116,23 @@ const Register = () => {
       console.error("Error adding document: ", e);
     }
   };
-  const sendRegister = async (e) => {
+  // @ts-ignore
+  const { sendRegister, signInWithGoogle } = useContext(RegisterContext);
+
+  const handleSubmit2 = (e) => {
     e.preventDefault();
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        addData();
-        //navigate("/login");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        // ..
-      });
+    sendRegister(email, password);
   };
+  const navigate = useNavigate();
+
+  const signInGoogle = async () => {
+    await signInWithGoogle();
+    //<Navigate replace to="/home"/>;
+
+    console.log("Viaggo verso la home");
+    navigate("/home");
+  };
+
   function allDataInserted() {
     if (
       nome != "" &&
@@ -149,7 +154,12 @@ const Register = () => {
     e.preventDefault();
 
     if (allDataInserted() === true) {
-      changeStep(e);
+      if (password.length >= 6) {
+        handleSubmit2(e);
+        changeStep(e);
+      } else {
+        alert("La password deve avere almeno 6 caratteri");
+      }
     }
     if (isChecked == false) {
       console.log("non è checked");
@@ -193,6 +203,7 @@ const Register = () => {
                 id="nome"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
+                required={true}
               />
               <Input
                 size="lg"
@@ -201,6 +212,7 @@ const Register = () => {
                 id="cognome"
                 value={cognome}
                 onChange={(e) => setCognome(e.target.value)}
+                required={true}
               />
               <Input
                 size="lg"
@@ -209,6 +221,7 @@ const Register = () => {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required={true}
               />
               <Input
                 type="password"
@@ -217,16 +230,8 @@ const Register = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required={true}
               />
-              {/*<Typography
-                variant="small"
-                color="gray"
-                className="flex items-center gap-1 font-normal mt-2"
-              >
-                <InformationCircleIcon className="w-4 h-4 -mt-px" />
-                Use at least 8 characters, one uppercase, one lowercase and one
-                number.
-        </Typography*/}
             </div>
             <div className="flex gap-10 justify-center">
               <Radio
@@ -235,6 +240,7 @@ const Register = () => {
                 label="Cliente"
                 value="cliente"
                 onChange={(e) => setType(e.target.value)}
+                required={true}
               />
               <Radio
                 id="venditore"
@@ -242,6 +248,7 @@ const Register = () => {
                 label="Venditore"
                 value="venditore"
                 onChange={(e) => setType(e.target.value)}
+                required={true}
               />
             </div>
             {showWarningTerms && (
@@ -265,6 +272,7 @@ const Register = () => {
                   </a>
                 </Typography>
               }
+              required={true}
               containerProps={{ className: "-ml-2.5 " }}
               checked={isChecked}
               onChange={handleCheckboxChange}
@@ -287,7 +295,10 @@ const Register = () => {
               </Link>
             </Typography>
             <div className="flex gap-4 items-center w-full justify-center mt-2">
-              <IconButton className="bg-[#ea4335] rounded hover:shadow-[#ea4335]/20 focus:shadow-[#ea4335]/20 active:shadow-[#ea4335]/10">
+              <IconButton
+                onClick={signInGoogle}
+                className="bg-[#ea4335] rounded hover:shadow-[#ea4335]/20 focus:shadow-[#ea4335]/20 active:shadow-[#ea4335]/10"
+              >
                 <FaGoogle className="w-4 h-4" />
               </IconButton>
               <IconButton className="bg-[#000000] rounded hover:shadow-[#ea4335]/20 focus:shadow-[#ea4335]/20 active:shadow-[#ea4335]/10">
@@ -302,6 +313,7 @@ const Register = () => {
       )}
       {activeStep === 2 && type === "cliente" && (
         <>
+          // @ts-ignore
           <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
           {animal === "Cane" && <AnimalDogList onSendBreed={catchBreed} />}
           {open ? (
@@ -310,12 +322,50 @@ const Register = () => {
         </>
       )}
       <h1>I dati inseriti sono: </h1>
-      <h5>Nome:{data.nome}</h5>
-      <h5>Cognome:{data.cognome}</h5>
-      <h5>Email:{data.email}</h5>
-      <h5>Password:{data.password}</h5>
-      <h5>Type:{data.type}</h5>
-      <h5>Lista: {JSON.stringify(data.lista, 2, null)}</h5>
+      <h5>
+        Nome:
+        {
+          // @ts-ignore
+          data.nome
+        }
+      </h5>
+      <h5>
+        Cognome:
+        {
+          // @ts-ignore
+          data.cognome
+        }
+      </h5>
+      <h5>
+        Email:
+        {
+          // @ts-ignore
+          data.email
+        }
+      </h5>
+      <h5>
+        Password:
+        {
+          // @ts-ignore
+          data.password
+        }
+      </h5>
+      <h5>
+        Type:
+        {
+          // @ts-ignore
+          data.type
+        }
+      </h5>
+      <h5>
+        Lista:{" "}
+        {JSON.stringify(
+          // @ts-ignore
+          data.lista,
+          2,
+          null
+        )}
+      </h5>
     </div>
   );
 };
@@ -338,7 +388,12 @@ const Authentication = ({ changeStep, handlePrev }) => {
           >
             Codice di 6 cifre
           </label>
-          <div className="w-full" id="confirmationCode" type="text">
+          <div
+            className="w-full"
+            id="confirmationCode"
+            // @ts-ignore
+            type="text"
+          >
             <Input label="Codice Conferma " />
           </div>
         </div>
