@@ -1,12 +1,16 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  sendEmailVerification,
+} from "firebase/auth";
+import { auth, googleProvider } from "../lib/firebase";
 import React, { createContext, useState } from "react";
 
 export const RegisterContext = createContext("");
 
 export const useRegister = () => {
-  const sendRegister = async (e, email, password) => {
-    e.preventDefault();
+  const sendRegister = async (email, password) => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
@@ -22,7 +26,25 @@ export const useRegister = () => {
       });
   };
 
-  return { sendRegister };
+  const signInWithGoogle = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      console.log("login effettuato");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  //da inserire il logout
+  const logOut = async () => {
+    try {
+      await signOut(auth);
+      console.log("logout effettuato");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return { sendRegister, logOut, signInWithGoogle };
 };
 
 export const RegisterProvider = ({ children }) => {

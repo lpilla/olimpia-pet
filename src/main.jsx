@@ -9,6 +9,7 @@ import Login from "./pages/login/index";
 import Register from "./pages/register/index";
 import Home from "./pages/home/index";
 import { UserProvider } from "./context/UserContext";
+import { RegisterProvider } from "./context/registerContext";
 
 const router = createBrowserRouter([
   {
@@ -37,7 +38,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider>
       <UserProvider>
-        <RouterProvider router={router} />
+        <RegisterProvider>
+          <RouterProvider router={router} />
+        </RegisterProvider>
       </UserProvider>
     </ThemeProvider>
   </React.StrictMode>

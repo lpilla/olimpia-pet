@@ -120,7 +120,6 @@ export default function Home() {
     iconSize: [32, 32], // Adjust the size according to your icon
   });
 
-
   return (
     <div>
       <MapContainer
