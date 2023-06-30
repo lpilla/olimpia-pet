@@ -23,7 +23,8 @@ import AnimalName from "../../components/AnimalName";
 import { db } from "../../lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import AnimalTable from "../../components/AnimalTable";
-import {UserContext} from "../../context/UserContext.jsx";
+import { UserContext } from "../../context/UserContext.jsx";
+import CreateShop from "../../components/CreateShop";
 
 const Register = () => {
   const [nome, setNome] = useState("");
@@ -322,6 +323,11 @@ const Register = () => {
           {open ? (
             <AnimalName sendOpen={catchOpen} sendValue={catchNewAnimal} />
           ) : null}
+        </>
+      )}
+      {activeStep === 2 && type === "venditore" && (
+        <>
+          <CreateShop></CreateShop>
         </>
       )}
       {activeStep === 3 && type === "cliente" && (
