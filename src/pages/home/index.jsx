@@ -125,7 +125,7 @@ export default function Home() {
 
     <div>
       {
-        user || user === undefined ? (
+        user ? (
             <MapContainer
                 markerZoomAnimation={true}
                 center={[location.latitude, location.longitude]}
