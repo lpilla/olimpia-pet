@@ -36,6 +36,7 @@ const Register = () => {
   const [animal, setAnimal] = useState("");
   const [breed, setBreed] = useState("");
   const [listaAnimal, setListaAnimal] = useState([]);
+  const [listaShop, setListaShop] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
@@ -51,6 +52,8 @@ const Register = () => {
       password: password,
       type: type,
       animal: animal,
+      listaAnimal: listaAnimal,
+      listaShop: listaShop,
     });
     handleNext();
   };
@@ -81,6 +84,10 @@ const Register = () => {
     setActiveStep(3);
   };
 
+  const catchShopList = (v) => {
+    setListaShop([...listaShop, v]);
+  };
+
   useEffect(() => {
     setData({
       nome: nome,
@@ -88,9 +95,10 @@ const Register = () => {
       email: email,
       password: password,
       type: type,
-      lista: listaAnimal,
+      listaAnimal: listaAnimal,
+      listaShop: listaShop,
     });
-  }, [listaAnimal]);
+  }, [listaAnimal, listaShop]);
 
   const [isChecked, setIsChecked] = useState(false);
   const [showWarningTerms, setShowWarningTerms] = useState(false);
@@ -327,7 +335,7 @@ const Register = () => {
       )}
       {activeStep === 2 && type === "venditore" && (
         <>
-          <CreateShop></CreateShop>
+          <CreateShop sendData={catchShopList}></CreateShop>
         </>
       )}
       {activeStep === 3 && type === "cliente" && (
@@ -370,10 +378,19 @@ const Register = () => {
         }
       </h5>
       <h5>
-        Lista:{" "}
+        Lista Animali:{" "}
         {JSON.stringify(
           // @ts-ignore
-          data.lista,
+          data.listaAnimal,
+          2,
+          null
+        )}
+      </h5>
+      <h5>
+        Lista Shop:{" "}
+        {JSON.stringify(
+          // @ts-ignore
+          data.listaShop,
           2,
           null
         )}
