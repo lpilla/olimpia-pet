@@ -23,6 +23,8 @@ import AnimalName from "../../components/AnimalName";
 import { db } from "../../lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { RegisterContext } from "../../context/registerContext";
+import AnimalTable from "../../components/AnimalTable";
+
 const Register = () => {
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
@@ -75,6 +77,7 @@ const Register = () => {
       ...listaAnimal,
       { nome: nome, descrizione: desc, animal: animal, breed: breed },
     ]);
+    setActiveStep(3);
   };
 
   useEffect(() => {
@@ -320,6 +323,9 @@ const Register = () => {
             <AnimalName sendOpen={catchOpen} sendValue={catchNewAnimal} />
           ) : null}
         </>
+      )}
+      {activeStep === 3 && type === "cliente" && (
+        <AnimalTable TABLE_ROWS={listaAnimal} />
       )}
       <h1>I dati inseriti sono: </h1>
       <h5>
