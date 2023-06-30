@@ -132,7 +132,7 @@ const Register = () => {
     await signInWithGoogle();
     //<Navigate replace to="/home"/>;
 
-    console.log("Viaggo verso la home");
+    console.log("Viaggo verso la home e oltre");
     navigate("/home");
   };
 

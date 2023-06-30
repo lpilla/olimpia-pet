@@ -53,21 +53,24 @@ export const useUser = () => {
         });
     },[])
 
-  const userLogin = ( email, password) => {
+  const userLogin = ( email, password , callaback) => {
     //e.preventDefault();
-    console.log("sono dentro");
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
+          // console.log("sono dentro");
+
+          const user = userCredential.user;
         console.log("login effettuato");
         addUser(user);
         console.log(user);
+        callaback("login effettuato");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
+        callaback(errorMessage);
       });
   };
 
