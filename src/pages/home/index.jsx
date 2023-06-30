@@ -45,6 +45,7 @@ import Card from "@material-tailwind/react/components/Card";
 import CustomMarker from "../../components/CustomMarker";
 import HomeFilters from "../../components/HomeFilters";
 import HomeProfile from "../../components/HomeProfile";
+import MySpinnerComponent from "../../components/MySpinnerComponent.jsx";
 
 function MapController({ position }) {
   const map = useMap();
@@ -59,7 +60,7 @@ function MapController({ position }) {
   return null;
 }
 export default function Home() {
-  const { user,logOut } = useContext(UserContext);
+  const { user,logOut,loading} = useContext(UserContext);
 
   const tekeMeToCenter = () => {
       handleGeolocation()
@@ -154,10 +155,7 @@ export default function Home() {
             </MapContainer>
 
         ) : (
-            <div className={"h-[100vh] w-[100vw] bg-gray-100 flex justify-center items-center"}>
-              <Spinner className="h-16 w-16 text-blue-500/10" />
-              <p>Effettua il login</p>
-            </div>
+            <MySpinnerComponent></MySpinnerComponent>
         )
       }
 

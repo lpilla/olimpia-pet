@@ -12,6 +12,7 @@ export const UserContext = createContext("");
 
 export const useUser = () => {
   const [user, setUser] = useState(undefined);
+  const [loading, setLoading] = useState(true);
   const addUser = (user) => {
     setUser(user);
   };
@@ -46,9 +47,11 @@ export const useUser = () => {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 setUser(user)
+                setLoading(false)
                 // ...
             } else {
                 setUser(null);
+                setLoading(false)
             }
         });
     },[])
@@ -83,7 +86,7 @@ export const useUser = () => {
         }
     };
 
-    return { user, addUser, userLogin ,logOut, signInWithGoogle, sendRegister};
+    return { user, addUser, userLogin ,logOut, signInWithGoogle, sendRegister,loading};
 };
 
 export const UserProvider = ({ children }) => {
