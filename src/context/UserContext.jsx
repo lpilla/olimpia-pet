@@ -1,14 +1,57 @@
-import React, { createContext, useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import React, {createContext, useEffect, useState} from "react";
+import {
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut,
+    createUserWithEmailAndPassword,
+    signInWithPopup
+} from "firebase/auth";
+import {auth, googleProvider} from "../lib/firebase";
 
 export const UserContext = createContext("");
 
 export const useUser = () => {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(undefined);
   const addUser = (user) => {
     setUser(user);
   };
+
+    const sendRegister = async (email, password) => {
+        await createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                console.log(user);
+                //navigate("/login");
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage);
+                // ..
+            });
+    };
+
+    const signInWithGoogle = async () => {
+        try {
+            await signInWithPopup(auth, googleProvider);
+            console.log("login effettuato");
+        } catch (err) {
+            console.error(err);
+        }
+    };
+  useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                setUser(user)
+                // ...
+            } else {
+                setUser(null);
+            }
+        });
+    },[])
 
   const userLogin = ( email, password) => {
     //e.preventDefault();
@@ -27,7 +70,17 @@ export const useUser = () => {
         console.log(errorCode, errorMessage);
       });
   };
-  return { user, addUser, userLogin };
+
+    const logOut = async () => {
+        try {
+            await signOut(auth);
+            console.log("logout effettuato");
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    return { user, addUser, userLogin ,logOut, signInWithGoogle, sendRegister};
 };
 
 export const UserProvider = ({ children }) => {
@@ -35,7 +88,6 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider 
-// @ts-ignore
     value={value}>
       {" "}
       <>{children} </>{" "}

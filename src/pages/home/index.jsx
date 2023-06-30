@@ -7,7 +7,7 @@ import {
   Dialog,
   DialogHeader,
   DialogBody,
-  DialogFooter,
+  DialogFooter, Spinner,
 } from "@material-tailwind/react";
 import {
   CardHeader,
@@ -37,7 +37,7 @@ import {
   FireIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import L from "leaflet";
 import card from "@material-tailwind/react/theme/components/card";
@@ -59,6 +59,11 @@ function MapController({ position }) {
   return null;
 }
 export default function Home() {
+  const { user,logOut } = useContext(UserContext);
+
+  const tekeMeToCenter = () => {
+      handleGeolocation()
+  }
   const createCustomMarker = (p) => {
     setMarkers([
       ...markers,
@@ -115,42 +120,47 @@ export default function Home() {
       console.log("Geolocation is not supported by this browser.");
     }
   };
-  // Define the custom icon
-  const customIcon = L.icon({
-    iconUrl:
-      "https://static.vecteezy.com/system/resources/previews/004/705/198/original/store-icon-design-symbol-market-retail-building-storefront-for-ecommerce-free-vector.jpg",
-    iconSize: [32, 32], // Adjust the size according to your icon
-  });
 
   return (
+
     <div>
-      <MapContainer
-        markerZoomAnimation={true}
-        center={[location.latitude, location.longitude]}
-        zoom={13}
-        minZoom={4}
-        doubleClickZoom={false}
-        className={"map-container"}
-      >
-        <div className="buttons">
-          <button onClick={() => createCustomMarker(location)}>
-            create marker
-          </button>
-        </div>
-        <TileLayer
-            noWrap={true}
+      {
+        user || user === undefined ? (
+            <MapContainer
+                markerZoomAnimation={true}
+                center={[location.latitude, location.longitude]}
+                zoom={13}
+                minZoom={4}
+                doubleClickZoom={false}
+                className={"map-container"}
+            >
+              <div className="buttons">
+                <button onClick={() => tekeMeToCenter()}>
+                  take me to center
+                </button>
+              </div>
+              <TileLayer
+                  noWrap={true}
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              {markers?.map((marker) => {
+                return <CustomMarker marker={marker} key={marker.id} />;
+              })}
 
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {markers?.map((marker) => {
-          return <CustomMarker marker={marker} key={marker.id} />;
-        })}
+              <HomeProfile user={user} logout={logOut} />
+              <HomeFilters setMarkers={setMarkers} markers={markers} />
+              <MapController position={location}/>
+            </MapContainer>
 
-        <HomeProfile />
-        <HomeFilters setMarkers={setMarkers} markers={markers} />
-        <MapController position={location} />
-      </MapContainer>
+        ) : (
+            <div className={"h-[100vh] w-[100vw] bg-gray-100 flex justify-center items-center"}>
+              <Spinner className="h-16 w-16 text-blue-500/10" />
+              <p>Effettua il login</p>
+            </div>
+        )
+      }
+
     </div>
   );
 }

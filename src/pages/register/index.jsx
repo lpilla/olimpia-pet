@@ -22,8 +22,8 @@ import AnimalCard from "../../components/animalCard";
 import AnimalName from "../../components/AnimalName";
 import { db } from "../../lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { RegisterContext } from "../../context/registerContext";
 import AnimalTable from "../../components/AnimalTable";
+import {UserContext} from "../../context/UserContext.jsx";
 
 const Register = () => {
   const [nome, setNome] = useState("");
@@ -120,7 +120,7 @@ const Register = () => {
     }
   };
   // @ts-ignore
-  const { sendRegister, signInWithGoogle } = useContext(RegisterContext);
+  const { sendRegister, signInWithGoogle } = useContext(UserContext);
 
   const handleSubmit2 = (e) => {
     e.preventDefault();

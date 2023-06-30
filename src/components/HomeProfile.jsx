@@ -9,11 +9,11 @@ import {
   ListItem,
   AccordionHeader,
   Avatar,
-  AccordionBody,
+  AccordionBody, ListItemPrefix,
 } from "@material-tailwind/react";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import {ChevronDownIcon, PowerIcon} from "@heroicons/react/24/outline";
 
-const HomeProfile = () => {
+const HomeProfile = ({user,logout}) => {
   const [open, setOpen] = useState(0);
 
   const handleOpen = (value) => {
@@ -36,9 +36,9 @@ const HomeProfile = () => {
           <ListItem className="p-0 relative" selected={open === 1}>
             <AccordionHeader
               onClick={() => handleOpen(1)}
-              className="border-b-0 p-3 flex justify-between"
+              className="border-b-0 p-3 flex justify-between mw-full"
             >
-              <div>
+              <div className={"min-w-[75px]"}>
                 <Avatar src={face} alt="avatar" size="xl" />
                 <Avatar
                   src={face}
@@ -60,8 +60,9 @@ const HomeProfile = () => {
                 />
               </div>
               <div className="mt-[-30px]">
-                <h4 className="text-xl font-bold leading-0 ">Lorenzo Pilla</h4>
+                <h4 className="text-xl font-bold leading-0 ">{user?.email}</h4>
                 <p className="text-sm">2 animali</p>
+                <p className="text-sm">{user === undefined ? "..." : user?.name}</p>
               </div>
             </AccordionHeader>
           </ListItem>
@@ -70,6 +71,12 @@ const HomeProfile = () => {
               <ListItem>Analytics</ListItem>
               <ListItem>Reporting</ListItem>
               <ListItem>Projects</ListItem>
+              <ListItem onClick={logout}>
+                <ListItemPrefix>
+                  <PowerIcon className="h-5 w-5" />
+                </ListItemPrefix>
+                Log Out
+              </ListItem>
             </List>
           </AccordionBody>
         </Accordion>
