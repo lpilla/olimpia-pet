@@ -10,16 +10,30 @@ import {
   Textarea,
   Select,
   Option,
+  List,
+  ListItem,
 } from "@material-tailwind/react";
+import { OpenStreetMapProvider } from "leaflet-geosearch";
 
 const CreateShop = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+    console.log(formData);
+  };
+
+  const [results, setResults] = useState([]);
+
+  const provider = new OpenStreetMapProvider();
+
+  const handleChangeAddress = async (e) => {
+    setFormData({ ...formData, shopAddress: e.target.value });
+    const results = await provider.search({ query: e.target.value });
+    setResults(results);
   };
   const [formData, setFormData] = useState({
     shopName: "",
     shopAddress: "",
+    shopCoordinates: null,
     shopType: "",
     shopDescription: "",
   });
@@ -68,10 +82,25 @@ const CreateShop = () => {
                 type="text"
                 required={true}
                 value={formData.shopAddress}
-                onChange={(e) =>
-                  setFormData({ ...formData, shopAddress: e.target.value })
-                }
+                onChange={(e) => handleChangeAddress(e)}
               />
+              <List>
+                {results?.map((result) => (
+                  <ListItem
+                    key={result.id}
+                    onClick={() => {
+                      setFormData({
+                        ...formData,
+                        shopAddress: result.label,
+                        shopCoordinates: [result.x, result.y],
+                      });
+                      setResults([]);
+                    }}
+                  >
+                    {result.label}
+                  </ListItem>
+                ))}
+              </List>
               <Select
                 label={"servizio"}
                 onChange={(e) => setFormData({ ...formData, shopType: e })}
@@ -90,11 +119,15 @@ const CreateShop = () => {
                 }
               ></Textarea>
             </div>
-            <Button className="mt-6" fullWidth type="submit">
+            <Button
+              className="mt-6"
+              fullWidth
+              type="submit"
+              disabled={formData.shopCoordinates === null}
+            >
               Register
             </Button>
           </form>
-          {JSON.stringify(formData, 2, null)}
         </TabPanel>
         <TabPanel key="service" value="service">
           <h1>Sedia</h1>
