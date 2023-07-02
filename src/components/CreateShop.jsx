@@ -13,12 +13,74 @@ import {
   List,
   ListItem,
 } from "@material-tailwind/react";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from "../lib/firebase";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../lib/firebase.js";
+import { useNavigate } from "react-router-dom";
 
 const CreateShop = () => {
-  const handleSubmit = (e) => {
+  const [url, setUrl] = useState("");
+  const navigate = useNavigate();
+
+  const [file, setFile] = useState("");
+
+  // progress
+  const [percent, setPercent] = useState(0);
+
+  // Handle file upload event and update state
+  function handleChange(event) {
+    setFile(event.target.files[0]);
+  }
+
+  const handleUpload = () => {
+    if (!file) {
+      alert("Please upload an image first!");
+    }
+
+    const storageRef = ref(storage, `images/${file.name}`);
+
+    // progress can be paused and resumed. It also exposes progress updates.
+    // Receives the storage reference and the file to upload.
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+
+        // update progress
+        setPercent(percent);
+      },
+      (err) => console.log(err),
+      () => {
+        // download url
+        getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
+          setUrl(url);
+          const docRef = await addDoc(collection(db, "stores"), {
+            ...formData,
+            icon: url,
+          });
+
+          console.log("Document written with ID: ", docRef.id);
+
+          alert("created");
+          navigate("/home");
+        });
+      }
+    );
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    try {
+      handleUpload();
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   };
 
   const [results, setResults] = useState([]);
@@ -31,11 +93,11 @@ const CreateShop = () => {
     setResults(results);
   };
   const [formData, setFormData] = useState({
-    shopName: "",
+    name: "",
     shopAddress: "",
-    shopCoordinates: null,
+    coordinates: null,
     shopType: "",
-    shopDescription: "",
+    description: "",
   });
   const data = [
     {
@@ -72,9 +134,9 @@ const CreateShop = () => {
                 type="text"
                 required={true}
                 onChange={(e) =>
-                  setFormData({ ...formData, shopName: e.target.value })
+                  setFormData({ ...formData, name: e.target.value })
                 }
-                value={formData.shopName}
+                value={formData.name}
               />
               <Input
                 size="lg"
@@ -92,7 +154,7 @@ const CreateShop = () => {
                       setFormData({
                         ...formData,
                         shopAddress: result.label,
-                        shopCoordinates: [result.x, result.y],
+                        coordinates: [result.y, result.x],
                       });
                       setResults([]);
                     }}
@@ -101,6 +163,13 @@ const CreateShop = () => {
                   </ListItem>
                 ))}
               </List>
+              <Input
+                type={"file"}
+                accept="/image/*"
+                onChange={handleChange}
+                required
+              />
+
               <Select
                 label={"servizio"}
                 onChange={(e) => setFormData({ ...formData, shopType: e })}
@@ -113,9 +182,9 @@ const CreateShop = () => {
               <Textarea
                 size="lg"
                 label="Descrizione"
-                value={formData.shopDescription}
+                value={formData.description}
                 onChange={(e) =>
-                  setFormData({ ...formData, shopDescription: e.target.value })
+                  setFormData({ ...formData, description: e.target.value })
                 }
               ></Textarea>
             </div>
@@ -123,7 +192,7 @@ const CreateShop = () => {
               className="mt-6"
               fullWidth
               type="submit"
-              disabled={formData.shopCoordinates === null}
+              disabled={formData.coordinates === null}
             >
               Register
             </Button>

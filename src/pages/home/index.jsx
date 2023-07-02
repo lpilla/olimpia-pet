@@ -7,7 +7,8 @@ import {
   Dialog,
   DialogHeader,
   DialogBody,
-  DialogFooter, Spinner,
+  DialogFooter,
+  Spinner,
 } from "@material-tailwind/react";
 import {
   CardHeader,
@@ -46,6 +47,8 @@ import CustomMarker from "../../components/CustomMarker";
 import HomeFilters from "../../components/HomeFilters";
 import HomeProfile from "../../components/HomeProfile";
 import MySpinnerComponent from "../../components/MySpinnerComponent.jsx";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../lib/firebase.js";
 
 function MapController({ position }) {
   const map = useMap();
@@ -56,15 +59,15 @@ function MapController({ position }) {
   });
   useEffect(() => {
     map.setView([position.latitude, position.longitude]);
-  },[position])
+  }, [position]);
   return null;
 }
 export default function Home() {
-  const { user,logOut,loading} = useContext(UserContext);
+  const { user, logOut, loading } = useContext(UserContext);
 
   const tekeMeToCenter = () => {
-      handleGeolocation()
-  }
+    handleGeolocation();
+  };
   const createCustomMarker = (p) => {
     setMarkers([
       ...markers,
@@ -79,31 +82,28 @@ export default function Home() {
       },
     ]);
   };
-  const [markers, setMarkers] = useState([
-    {
-      id: 1,
-      coordinates: [45.49851513788384, 9.246648739483234],
-      name: "giorgio",
-      description: "lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      icon: "https://media.istockphoto.com/id/1171733307/it/foto/veterinario-con-cane-e-gatto-cucciolo-e-gattino-dal-dottore.jpg?s=612x612&w=0&k=20&c=3M18OZ2x-fJcx88S9FHefEx4OItXbVEJ-d3iQZuQXmA=",
-      categories: ["veterinario", "parco"],
-    },
-    {
-      id: 2,
-      coordinates: [45.504052789979056, 9.255578153067383],
-      name: "giorgio 2",
-      description:
-        "lorem ipsum dolor sit amet consectetur adipisicing elit. fdfddf d",
-      icon: "https://media.istockphoto.com/id/1171733307/it/foto/veterinario-con-cane-e-gatto-cucciolo-e-gattino-dal-dottore.jpg?s=612x612&w=0&k=20&c=3M18OZ2x-fJcx88S9FHefEx4OItXbVEJ-d3iQZuQXmA=",
-      categories: ["veterinario"],
-    },
-  ]);
+  const [markers, setMarkers] = useState([]);
   const [location, setLocation] = useState({
     latitude: 0,
     longitude: 0,
   });
   useEffect(() => {
+    console.log(markers);
+  }, [markers]);
+  useEffect(() => {
+    const getData = async () => {
+      const myArray = [];
+      const querySnapshot = await getDocs(collection(db, "stores"));
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data().name);
+        myArray.push(doc.data());
+        console.log(myArray);
+        setMarkers(myArray);
+      });
+    };
+
     handleGeolocation();
+    getData();
   }, []);
 
   const handleGeolocation = () => {
@@ -123,42 +123,36 @@ export default function Home() {
   };
 
   return (
-
     <div>
-      {
-        user ? (
-            <MapContainer
-                markerZoomAnimation={true}
-                center={[location.latitude, location.longitude]}
-                zoom={13}
-                minZoom={4}
-                doubleClickZoom={false}
-                className={"map-container"}
-            >
-              <div className="buttons">
-                <button onClick={() => tekeMeToCenter()}>
-                  take me to center
-                </button>
-              </div>
-              <TileLayer
-                  noWrap={true}
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              {markers?.map((marker) => {
-                return <CustomMarker marker={marker} key={marker.id} />;
-              })}
+      {user ? (
+        <MapContainer
+          markerZoomAnimation={true}
+          center={[location.latitude, location.longitude]}
+          zoom={13}
+          minZoom={4}
+          doubleClickZoom={false}
+          className={"map-container"}
+        >
+          <div className="buttons">
+            <button onClick={() => tekeMeToCenter()}>take me to center</button>
+          </div>
+          <TileLayer
+            noWrap={true}
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {markers.map((marker) => {
+            console.log(marker);
+            return <CustomMarker marker={marker} key={marker.id} />;
+          })}
 
-              <HomeProfile user={user} logout={logOut} />
-              <HomeFilters setMarkers={setMarkers} markers={markers} />
-              <MapController position={location}/>
-            </MapContainer>
-
-        ) : (
-            <MySpinnerComponent></MySpinnerComponent>
-        )
-      }
-
+          <HomeProfile user={user} logout={logOut} />
+          <HomeFilters setMarkers={setMarkers} markers={markers} />
+          <MapController position={location} />
+        </MapContainer>
+      ) : (
+        <MySpinnerComponent></MySpinnerComponent>
+      )}
     </div>
   );
 }
