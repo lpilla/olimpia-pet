@@ -50,7 +50,6 @@ const Register = () => {
       email: email,
       password: password,
       type: type,
-      animal: animal,
     });
     handleNext();
   };
@@ -101,29 +100,11 @@ const Register = () => {
   };
 
   //caricamento dati su database
-  const addData = async (e) => {
-    e.preventDefault();
 
-    try {
-      const docRef = await addDoc(collection(db, "users"), {
-        // @ts-ignore
-        nome: data.nome,
-        // @ts-ignore
-        cognome: data.cognome,
-        // @ts-ignore
-        email: data.email,
-        // @ts-ignore
-        password: data.password,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
   // @ts-ignore
   const { sendRegister, signInWithGoogle } = useContext(UserContext);
 
-  const handleSubmit2 = (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
     sendRegister(email, password);
   };
@@ -159,7 +140,6 @@ const Register = () => {
 
     if (allDataInserted() === true) {
       if (password.length >= 6) {
-        handleSubmit2(e);
         changeStep(e);
       } else {
         alert("La password deve avere almeno 6 caratteri");
@@ -333,6 +313,8 @@ const Register = () => {
       {activeStep === 3 && type === "cliente" && (
         <AnimalTable TABLE_ROWS={listaAnimal} />
       )}
+      <pre>{JSON.stringify(data, 2, null)}</pre>
+
       <h1>I dati inseriti sono: </h1>
       <h5>
         Nome:
@@ -511,10 +493,3 @@ const AnimalDogList = ({ onSendBreed }) => {
     </div>
   );
 };
-
-/*export const RegisterContext = createContext();
-
-export const RegisterProvider = ({ children }) => {
-  const value = sendRegister;
-  return <RegisterContext.Provider value={value}>{children}</RegisterContext.Provider>;
-};*/
