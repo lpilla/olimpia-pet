@@ -25,6 +25,7 @@ import { collection, addDoc } from "firebase/firestore";
 import AnimalTable from "../../components/AnimalTable";
 import { UserContext } from "../../context/UserContext.jsx";
 import CreateShop from "../../components/CreateShop";
+import { databaseContext } from "../../context/DatabaseContext";
 
 const Register = () => {
   const [nome, setNome] = useState("");
@@ -163,6 +164,11 @@ const Register = () => {
     }
   };
 
+  const { addData } = useContext(databaseContext);
+
+  const addDataToDatabase = async () => {
+    await addData(nome, cognome, type, listaAnimal);
+  };
   return (
     <div className="flex flex-col items-center max-w-8xl mx-auto justify-center ">
       <div className="w-full py-4 px-8">
@@ -387,6 +393,12 @@ const Register = () => {
           null
         )}
       </h5>
+      <button
+        onClick={addDataToDatabase}
+        className="bg-red-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Invia Dati
+      </button>
     </div>
   );
 };
