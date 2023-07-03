@@ -1,7 +1,11 @@
 import { Card, Typography } from "@material-tailwind/react";
 
-const AnimalTable = ({ TABLE_ROWS }) => {
+const AnimalTable = ({ TABLE_ROWS, sendStatus }) => {
   const TABLE_HEAD = ["Nome", "Animale", "Razza", ""];
+
+  const addAnimal = () => {
+    sendStatus?.(true);
+  };
 
   return (
     <Card className="overflow-auto h-full w-96">
@@ -72,6 +76,14 @@ const AnimalTable = ({ TABLE_ROWS }) => {
               </tr>
             );
           })}
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <button onClick={addAnimal}>Add</button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </Card>

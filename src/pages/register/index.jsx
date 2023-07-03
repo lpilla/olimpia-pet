@@ -37,6 +37,7 @@ const Register = () => {
   const [breed, setBreed] = useState("");
   const [listaAnimal, setListaAnimal] = useState([]);
   const [open, setOpen] = React.useState(false);
+  const [addingStatus, setStatus] = useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
@@ -311,7 +312,23 @@ const Register = () => {
         </>
       )}
       {activeStep === 3 && type === "cliente" && (
-        <AnimalTable TABLE_ROWS={listaAnimal} />
+        <AnimalTable
+          TABLE_ROWS={listaAnimal}
+          sendStatus={(v) => {
+            setStatus(v);
+            setActiveStep(4);
+          }}
+        />
+      )}
+      {activeStep === 4 && type === "cliente" && addingStatus && (
+        <>
+          // @ts-ignore
+          <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
+          {animal === "Cane" && <AnimalDogList onSendBreed={catchBreed} />}
+          {open ? (
+            <AnimalName sendOpen={catchOpen} sendValue={catchNewAnimal} />
+          ) : null}
+        </>
       )}
       <pre>{JSON.stringify(data, 2, null)}</pre>
 
