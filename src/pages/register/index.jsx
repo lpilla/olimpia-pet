@@ -74,11 +74,17 @@ const Register = () => {
     if (!nome) {
       return;
     }
+    const id = new Date().getTime().toString();
     setListaAnimal([
       ...listaAnimal,
-      { nome: nome, descrizione: desc, animal: animal, breed: breed },
+      { id: id, nome: nome, descrizione: desc, animal: animal, breed: breed },
     ]);
     setActiveStep(3);
+  };
+
+  const catchAnimalId = (id) => {
+    const nuovaLista = listaAnimal.filter((animal) => animal.id !== id);
+    setListaAnimal(nuovaLista);
   };
 
   useEffect(() => {
@@ -318,6 +324,7 @@ const Register = () => {
             setStatus(v);
             setActiveStep(4);
           }}
+          sendId={catchAnimalId}
         />
       )}
       {activeStep === 4 && type === "cliente" && addingStatus && (

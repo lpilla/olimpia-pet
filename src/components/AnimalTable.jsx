@@ -1,10 +1,20 @@
-import { Card, Typography } from "@material-tailwind/react";
+import {
+  Card,
+  Typography,
+  Button,
+  DialogFooter,
+} from "@material-tailwind/react";
+import { useState } from "react";
 
-const AnimalTable = ({ TABLE_ROWS, sendStatus }) => {
+const AnimalTable = ({ TABLE_ROWS, sendStatus, sendId }) => {
   const TABLE_HEAD = ["Nome", "Animale", "Razza", ""];
 
   const addAnimal = () => {
     sendStatus?.(true);
+  };
+
+  const elimina = (id) => {
+    sendId?.(id);
   };
 
   return (
@@ -67,25 +77,29 @@ const AnimalTable = ({ TABLE_ROWS, sendStatus }) => {
                     as="a"
                     href="#"
                     variant="small"
-                    color="blue"
+                    color="red"
                     className="font-medium"
+                    onClick={() => {
+                      elimina(item.id);
+                      console.log("clikc");
+                    }}
                   >
-                    Edit
+                    remove
                   </Typography>
                 </td>
               </tr>
             );
           })}
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-              <button onClick={addAnimal}>Add</button>
-            </td>
-          </tr>
         </tbody>
       </table>
+      <Button
+        variant="outlined"
+        color="green"
+        className="hover:bg-green-700 hover:text-white"
+        onClick={addAnimal}
+      >
+        Add
+      </Button>
     </Card>
   );
 };
