@@ -9,6 +9,7 @@ import Login from "./pages/login/index";
 import Register from "./pages/register/index";
 import Home from "./pages/home/index";
 import { UserProvider } from "./context/UserContext";
+import { DatabaseProvider } from "./context/DatabaseContext";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ThemeProvider>
     <UserProvider>
-      <RouterProvider router={router} />
+      <DatabaseProvider>
+        <RouterProvider router={router} />
+      </DatabaseProvider>
     </UserProvider>
   </ThemeProvider>
 );
