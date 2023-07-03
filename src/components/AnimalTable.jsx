@@ -78,7 +78,7 @@ const AnimalTable = ({ TABLE_ROWS, sendStatus, sendId }) => {
                     href="#"
                     variant="small"
                     color="red"
-                    className="font-medium"
+                    className="font-medium hover:text-red-dark"
                     onClick={() => {
                       elimina(item.id);
                       console.log("clikc");
