@@ -4,7 +4,7 @@ const AnimalTable = ({ TABLE_ROWS }) => {
   const TABLE_HEAD = ["Nome", "Animale", "Razza", ""];
 
   return (
-    <Card className="overflow-scroll h-full w-full">
+    <Card className="overflow-auto h-full w-96">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
