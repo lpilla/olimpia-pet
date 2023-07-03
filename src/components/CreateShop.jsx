@@ -12,6 +12,7 @@ import {
   Option,
   List,
   ListItem,
+  Chip,
 } from "@material-tailwind/react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../lib/firebase";
@@ -19,10 +20,12 @@ import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../lib/firebase.js";
 import { useNavigate } from "react-router-dom";
+import MyCustomChip from "./MyCustomChip.jsx";
 
 const CreateShop = () => {
   const [url, setUrl] = useState("");
   const navigate = useNavigate();
+  const [services, setServices] = useState(["petShop", "parco"]);
 
   const [file, setFile] = useState("");
 
@@ -63,12 +66,13 @@ const CreateShop = () => {
           const docRef = await addDoc(collection(db, "stores"), {
             ...formData,
             icon: url,
+            categories: services,
           });
 
           console.log("Document written with ID: ", docRef.id);
 
           alert("created");
-          navigate("/home");
+          navigate("/");
         });
       }
     );
@@ -172,13 +176,28 @@ const CreateShop = () => {
 
               <Select
                 label={"servizio"}
-                onChange={(e) => setFormData({ ...formData, shopType: e })}
+                onChange={(e) => {
+                  setFormData({ ...formData, shopType: e });
+                  if (!services.includes(e)) {
+                    setServices([...services, e]);
+                  }
+                }}
                 className={"text-black"}
                 required={true}
               >
                 <Option value={"petShop"}>Pet Shop</Option>
                 <Option value={"veterinario"}>Veterinario</Option>
               </Select>
+              <div className={"flex"}>
+                {services.map((service) => (
+                  <MyCustomChip
+                    name={service}
+                    onDelete={() => {
+                      setServices(services.filter((s) => s !== service));
+                    }}
+                  />
+                ))}
+              </div>
               <Textarea
                 size="lg"
                 label="Descrizione"

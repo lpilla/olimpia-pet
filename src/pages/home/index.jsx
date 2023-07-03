@@ -53,9 +53,7 @@ import { db } from "../../lib/firebase.js";
 function MapController({ position }) {
   const map = useMap();
   const mapEvents = useMapEvents({
-    click: (e) => {
-      console.log(e.latlng.lat, e.latlng.lng);
-    },
+    click: (e) => {},
   });
   useEffect(() => {
     map.setView([position.latitude, position.longitude]);
@@ -67,20 +65,6 @@ export default function Home() {
 
   const tekeMeToCenter = () => {
     handleGeolocation();
-  };
-  const createCustomMarker = (p) => {
-    setMarkers([
-      ...markers,
-      {
-        id: 3,
-        coordinates: [p.latitude, p.longitude],
-        name: "giorgio",
-        description:
-          "The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to &quot;Naviglio&quot; where you can enjoy the main night life in Barcelona.",
-        icon: "https://media.istockphoto.com/id/1171733307/it/foto/veterinario-con-cane-e-gatto-cucciolo-e-gattino-dal-dottore.jpg?s=612x612&w=0&k=20&c=3M18OZ2x-fJcx88S9FHefEx4OItXbVEJ-d3iQZuQXmA=",
-        categories: ["vaterinario"],
-      },
-    ]);
   };
   const [markers, setMarkers] = useState([]);
   const [location, setLocation] = useState({
@@ -95,9 +79,7 @@ export default function Home() {
       const myArray = [];
       const querySnapshot = await getDocs(collection(db, "stores"));
       querySnapshot.forEach((doc) => {
-        console.log(doc.data().name);
         myArray.push(doc.data());
-        console.log(myArray);
         setMarkers(myArray);
       });
     };
@@ -142,12 +124,11 @@ export default function Home() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {markers.map((marker) => {
-            console.log(marker);
             return <CustomMarker marker={marker} key={marker.id} />;
           })}
 
           <HomeProfile user={user} logout={logOut} />
-          <HomeFilters setMarkers={setMarkers} markers={markers} />
+          {markers && <HomeFilters setMarkers={setMarkers} markers={markers} />}
           <MapController position={location} />
         </MapContainer>
       ) : (

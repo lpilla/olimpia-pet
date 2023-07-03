@@ -13,7 +13,7 @@ import { UserProvider } from "./context/UserContext";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Home />,
   },
   {
     path: "/login",

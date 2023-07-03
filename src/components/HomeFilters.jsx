@@ -10,19 +10,28 @@ import { useEffect, useState } from "react";
 
 const HomeFilters = ({ setMarkers, markers }) => {
   const [filters, setFilters] = useState([]);
+  const [alreadyRunned, setAlreadyRunned] = useState(false);
 
   const [myMarkers, setMyMarkers] = useState(null);
   useEffect(() => {
-    setMyMarkers(markers);
-  }, []);
-
+    if (!myMarkers?.length > 0) {
+      setMyMarkers(markers);
+      setAlreadyRunned(true);
+    } else {
+      return;
+    }
+  }, [markers]);
   useEffect(() => {
+    console.log("My Markers", myMarkers);
+  }, [myMarkers]);
+  useEffect(() => {
+    console.log("Filters", filters);
     filterBy();
   }, [filters]);
 
   const filterBy = () => {
-    if(filters.length === 0)
-      return
+    if (filters.length === 0) return;
+    console.log(myMarkers);
     const filteredObjects = myMarkers?.filter((object) =>
       filters.some((category) => object.categories.includes(category))
     );
@@ -38,8 +47,9 @@ const HomeFilters = ({ setMarkers, markers }) => {
         <ListItem className="p-0">
           <label
             onChange={async (e) => {
-              console.log(e.target.checked);
               if (e.target.checked) {
+                console.log(e.target.checked);
+                console.log(e.target.value);
                 setFilters([...filters, e.target.value]);
               } else {
                 setMarkers(myMarkers);
@@ -48,12 +58,12 @@ const HomeFilters = ({ setMarkers, markers }) => {
                 );
               }
             }}
-            htmlFor="vertical-list-react"
+            htmlFor="veterinario"
             className="px-3 py-2 flex items-center w-full cursor-pointer"
           >
             <ListItemPrefix className="mr-3">
               <Checkbox
-                id="vertical-list-react"
+                id="veterinario"
                 ripple={false}
                 value={"veterinario"}
                 className="hover:before:opacity-0"
@@ -67,11 +77,13 @@ const HomeFilters = ({ setMarkers, markers }) => {
             </Typography>
           </label>
         </ListItem>
+
         <ListItem className="p-0">
           <label
             onChange={async (e) => {
-              console.log(e.target.checked);
               if (e.target.checked) {
+                console.log(e.target.checked);
+                console.log(e.target.value);
                 setFilters([...filters, e.target.value]);
               } else {
                 setMarkers(myMarkers);
@@ -80,12 +92,45 @@ const HomeFilters = ({ setMarkers, markers }) => {
                 );
               }
             }}
-            htmlFor="vertical-list-vue"
+            htmlFor="petShop"
             className="px-3 py-2 flex items-center w-full cursor-pointer"
           >
             <ListItemPrefix className="mr-3">
               <Checkbox
-                id="vertical-list-vue"
+                id="petShop"
+                ripple={false}
+                className="hover:before:opacity-0"
+                containerProps={{
+                  className: "p-0",
+                }}
+                value={"petShop"}
+              />
+            </ListItemPrefix>
+            <Typography color="blue-gray" className="font-medium">
+              Pet Shop
+            </Typography>
+          </label>
+        </ListItem>
+        <ListItem className="p-0">
+          <label
+            onChange={async (e) => {
+              if (e.target.checked) {
+                console.log(e.target.checked);
+                console.log(e.target.value);
+                setFilters([...filters, e.target.value]);
+              } else {
+                setMarkers(myMarkers);
+                await setFilters(
+                  filters.filter((item) => item !== e.target.value)
+                );
+              }
+            }}
+            htmlFor="parco"
+            className="px-3 py-2 flex items-center w-full cursor-pointer"
+          >
+            <ListItemPrefix className="mr-3">
+              <Checkbox
+                id="parco"
                 ripple={false}
                 className="hover:before:opacity-0"
                 containerProps={{
@@ -96,46 +141,6 @@ const HomeFilters = ({ setMarkers, markers }) => {
             </ListItemPrefix>
             <Typography color="blue-gray" className="font-medium">
               Parco
-            </Typography>
-          </label>
-        </ListItem>
-        <ListItem className="p-0">
-          <label
-            htmlFor="vertical-list-svelte"
-            className="px-3 py-2 flex items-center w-full cursor-pointer"
-          >
-            <ListItemPrefix className="mr-3">
-              <Checkbox
-                id="vertical-list-svelte"
-                ripple={false}
-                className="hover:before:opacity-0"
-                containerProps={{
-                  className: "p-0",
-                }}
-              />
-            </ListItemPrefix>
-            <Typography color="blue-gray" className="font-medium">
-              Pet Shop
-            </Typography>
-          </label>
-        </ListItem>
-        <ListItem className="p-0">
-          <label
-            htmlFor="vertical-list-svelte"
-            className="px-3 py-2 flex items-center w-full cursor-pointer"
-          >
-            <ListItemPrefix className="mr-3">
-              <Checkbox
-                id="vertical-list-svelte"
-                ripple={false}
-                className="hover:before:opacity-0"
-                containerProps={{
-                  className: "p-0",
-                }}
-              />
-            </ListItemPrefix>
-            <Typography color="blue-gray" className="font-medium">
-              Altro
             </Typography>
           </label>
         </ListItem>
