@@ -109,12 +109,9 @@ const Register = () => {
   //caricamento dati su database
 
   // @ts-ignore
-  const { sendRegister, signInWithGoogle } = useContext(UserContext);
+  const { sendRegister, signInWithGoogle, isEmailAlreadyRegistered } =
+    useContext(UserContext);
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    sendRegister(email, password);
-  };
   const navigate = useNavigate();
 
   const signInGoogle = async () => {
@@ -133,21 +130,27 @@ const Register = () => {
       password != "" &&
       type != ""
     ) {
-      console.log("dati inseriti");
+      console.log("Dati nel form inseriti correttamente");
       return true;
     } else {
-      console.log("dati non inseriti");
+      console.log("Dati nel form non inseriti correttamente");
       return false;
     }
   }
 
-  const handleSubmit = (e) => {
-    //console.log(e);
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (allDataInserted() === true) {
+      console.log(isEmailAlreadyRegistered(email));
       if (password.length >= 6) {
-        changeStep(e);
+        const isRegistered = await isEmailAlreadyRegistered(email);
+        if (isRegistered === false) {
+          await sendRegister(email, password);
+          changeStep(e);
+        } else {
+          alert("Email già registrata");
+        }
       } else {
         alert("La password deve avere almeno 6 caratteri");
       }
@@ -156,7 +159,7 @@ const Register = () => {
       console.log("non è checked");
       setShowWarningTerms(true);
     } else {
-      console.log("Manca qualche dato nel form!");
+      console.log("Tutto ok!");
     }
   };
 
