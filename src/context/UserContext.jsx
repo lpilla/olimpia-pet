@@ -5,6 +5,7 @@ import {
   signOut,
   createUserWithEmailAndPassword,
   signInWithPopup,
+  fetchSignInMethodsForEmail,
 } from "firebase/auth";
 import { auth, googleProvider } from "../lib/firebase";
 
@@ -17,13 +18,25 @@ export const useUser = () => {
     setUser(user);
   };
 
-  const sendRegister = async (email, password) => {
-    //const controlUser = await auth().getUserByEmail(email);
+  const isEmailAlreadyRegistered = async (email) => {
+    let isAlreadyRegistered = false;
+    await fetchSignInMethodsForEmail(auth, email)
+      .then((signInMethods) => {
+        if (signInMethods.length === 0) {
+          console.log("Email non registrato");
+        } else {
+          console.log("Email is already registered");
+          isAlreadyRegistered = true;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return isAlreadyRegistered;
+  };
 
-    /*if (controlUser) {
-      // The email address is registered.
-    } else {*/
-    await createUserWithEmailAndPassword(auth, email, password)
+  const sendRegister = async (email, password) => {
+    createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
@@ -36,7 +49,6 @@ export const useUser = () => {
         console.log(errorCode, errorMessage);
         // ..
       });
-    //}
   };
 
   const signInWithGoogle = async () => {
@@ -100,6 +112,7 @@ export const useUser = () => {
     signInWithGoogle,
     sendRegister,
     loading,
+    isEmailAlreadyRegistered,
   };
 };
 
