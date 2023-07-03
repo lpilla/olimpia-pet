@@ -16,7 +16,7 @@ import {
 } from "@material-tailwind/react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../lib/firebase";
-import { OpenStreetMapProvider } from "leaflet-geosearch";
+import { GoogleProvider, OpenStreetMapProvider } from "leaflet-geosearch";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../lib/firebase.js";
 import { useNavigate } from "react-router-dom";
@@ -89,7 +89,11 @@ const CreateShop = () => {
 
   const [results, setResults] = useState([]);
 
-  const provider = new OpenStreetMapProvider();
+  const provider = new GoogleProvider({
+    apiKey: "AIzaSyAexuKsKUvdmiKJeNc203Mc9ZBM7X77ojI",
+  });
+
+  // const provider = new OpenStreetMapProvider();
 
   const handleChangeAddress = async (e) => {
     setFormData({ ...formData, shopAddress: e.target.value });

@@ -70,7 +70,10 @@ const CustomMarker = ({ marker }) => {
                 })}
               </div>
               <Typography variant="h4" color="blue-gray" className="my-2">
-                Lyft launching cross-platform service this week
+                Location:
+              </Typography>
+              <Typography variant="p" color="blue-gray" className="my-2">
+                {marker?.shopAddress}
               </Typography>
               <Typography color="gray" className="font-normal mb-8">
                 {marker?.description}
