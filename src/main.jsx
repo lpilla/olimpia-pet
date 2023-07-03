@@ -10,6 +10,7 @@ import Register from "./pages/register/index";
 import Home from "./pages/home/index";
 import { UserProvider } from "./context/UserContext";
 import { RegisterProvider } from "./context/registerContext";
+import { DatabaseProvider } from "./context/databaseContext";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <ThemeProvider>
       <UserProvider>
         <RegisterProvider>
-          <RouterProvider router={router} />
+          <DatabaseProvider>
+            <RouterProvider router={router} />
+          </DatabaseProvider>
         </RegisterProvider>
       </UserProvider>
     </ThemeProvider>

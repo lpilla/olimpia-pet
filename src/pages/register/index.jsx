@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Form, Link, Navigate, useNavigate } from "react-router-dom";
-// @ts-ignore
 import {
   Stepper,
   Step,
@@ -11,18 +10,13 @@ import {
   Typography,
   Radio,
   IconButton,
-  // @ts-ignore
-  InformationCircleIcon,
-  // @ts-ignore
-  Alert,
 } from "@material-tailwind/react";
 import AnimalSelect from "../../components/animalSelect";
 import { FaGoogle, FaApple } from "react-icons/fa";
 import AnimalCard from "../../components/animalCard";
 import AnimalName from "../../components/AnimalName";
-import { db } from "../../lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
 import { RegisterContext } from "../../context/registerContext";
+import { databaseContext } from "../../context/databaseContext";
 const Register = () => {
   const [nome, setNome] = useState("");
   const [cognome, setCognome] = useState("");
@@ -97,24 +91,10 @@ const Register = () => {
   };
 
   //caricamento dati su database
-  const addData = async (e) => {
-    e.preventDefault();
+  const { addData } = useContext(databaseContext);
 
-    try {
-      const docRef = await addDoc(collection(db, "users"), {
-        // @ts-ignore
-        nome: data.nome,
-        // @ts-ignore
-        cognome: data.cognome,
-        // @ts-ignore
-        email: data.email,
-        // @ts-ignore
-        password: data.password,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
+  const addMyData = async () => {
+    await addData(nome, cognome, email, password);
   };
   // @ts-ignore
   const { sendRegister, signInWithGoogle } = useContext(RegisterContext);
@@ -313,7 +293,6 @@ const Register = () => {
       )}
       {activeStep === 2 && type === "cliente" && (
         <>
-          // @ts-ignore
           <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
           {animal === "Cane" && <AnimalDogList onSendBreed={catchBreed} />}
           {open ? (
@@ -321,6 +300,12 @@ const Register = () => {
           ) : null}
         </>
       )}
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={addMyData}
+      >
+        Invia Dati a Database
+      </button>
       <h1>I dati inseriti sono: </h1>
       <h5>
         Nome:
