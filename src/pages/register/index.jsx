@@ -176,11 +176,11 @@ const Register = () => {
   }, [isRendering]);
 */
   return (
-    <div className="flex flex-col items-center max-w-8xl mx-auto justify-center ">
+    <div className="flex flex-col items-center max-w-8xl mx-auto justify-center relative min-h-screen">
       <svg
         preserveAspectRatio="xMidYMid slice"
         viewBox="10 10 80 80"
-        className="absolute inset-0 w-full h-full z-0"
+        className="absolute inset-0 w-full h-full z-0 mb-0"
         style={{ zIndex: -1 }}
       >
         <defs>
