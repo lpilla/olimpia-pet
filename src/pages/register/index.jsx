@@ -180,7 +180,7 @@ const Register = () => {
       <svg
         preserveAspectRatio="xMidYMid slice"
         viewBox="10 10 80 80"
-        className="absolute inset-0 w-full h-full z-0 mb-0"
+        className="absolute inset-0 w-full h-full z-0 mb-0 bg-yellow-400"
         style={{ zIndex: -1 }}
       >
         <defs>
@@ -367,14 +367,28 @@ const Register = () => {
         </>
       )}
       {activeStep === 3 && type === "cliente" && (
-        <AnimalTable
-          TABLE_ROWS={listaAnimal}
-          sendStatus={(v) => {
-            setStatus(v);
-            setActiveStep(4);
-          }}
-          sendId={catchAnimalId}
-        />
+        <>
+          <div className="flex flex-col items-end">
+            <AnimalTable
+              TABLE_ROWS={listaAnimal}
+              sendStatus={(v) => {
+                setStatus(v);
+                setActiveStep(4);
+              }}
+              sendId={catchAnimalId}
+            />
+            <Button
+              className="mt-6"
+              type="submit"
+              disabled={listaAnimal.length === 0}
+              onClick={() => {
+                navigate("/home");
+              }}
+            >
+              Conferma
+            </Button>
+          </div>
+        </>
       )}
       {activeStep === 4 && type === "cliente" && addingStatus && (
         <>
@@ -526,9 +540,6 @@ const AnimalSelection = ({ onSendAnimal, changeStep, handlePrev }) => {
             onClick={handlePrev}
           >
             Indietro
-          </Button>
-          <Button className="mt-6" type="submit">
-            Conferma
           </Button>
         </div>
       </Form>
