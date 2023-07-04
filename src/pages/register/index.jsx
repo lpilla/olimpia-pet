@@ -110,6 +110,7 @@ const Register = () => {
     sendRegister,
     signInWithGoogle,
     isEmailAlreadyRegistered,
+    updateDisplayName
   } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -142,11 +143,11 @@ const Register = () => {
     e.preventDefault();
 
     if (allDataInserted() === true) {
-      console.log(isEmailAlreadyRegistered(email));
       if (password.length >= 6) {
         const isRegistered = await isEmailAlreadyRegistered(email);
         if (isRegistered === false) {
           await sendRegister(email, password);
+          await updateDisplayName(nome);
           changeStep(e);
         } else {
           alert("Email già registrata");

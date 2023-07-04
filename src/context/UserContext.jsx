@@ -9,6 +9,7 @@ import {
   sendEmailVerification,
   isSignInWithEmailLink,
   signInWithEmailLink,
+  updateProfile
 } from "firebase/auth";
 import { auth, googleProvider } from "../lib/firebase";
 
@@ -154,7 +155,18 @@ export const useUser = () => {
       console.error(err);
     }
   };
-
+  const updateDisplayName = async (nome) =>{
+    const currentUser = auth.currentUser
+    console.log("Utente corrente" + currentUser.uid)
+    await updateProfile(currentUser, {
+      displayName: nome, photoURL: null
+    }).then(() => {
+      console.log("Nome profilo aggiornato")
+      console.log(currentUser.displayName)
+    }).catch((error) => {
+      console.log("Nome profilo non aggiornato")
+    });
+  }
   return {
     user,
     addUser,
@@ -166,6 +178,7 @@ export const useUser = () => {
     isEmailAlreadyRegistered,
     signInWithLink,
     isRedirecting,
+    updateDisplayName
   };
 };
 
