@@ -11,10 +11,6 @@ import {
   Typography,
   Radio,
   IconButton,
-  // @ts-ignore
-  InformationCircleIcon,
-  // @ts-ignore
-  Alert,
 } from "@material-tailwind/react";
 import AnimalSelect from "../../components/animalSelect";
 import { FaGoogle, FaApple } from "react-icons/fa";
@@ -110,8 +106,11 @@ const Register = () => {
   //caricamento dati su database
 
   // @ts-ignore
-  const { sendRegister, signInWithGoogle, isEmailAlreadyRegistered } =
-    useContext(UserContext);
+  const {
+    sendRegister,
+    signInWithGoogle,
+    isEmailAlreadyRegistered,
+  } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -163,12 +162,18 @@ const Register = () => {
       console.log("Tutto ok!");
     }
   };
-
   const { addData } = useContext(databaseContext);
 
   const addDataToDatabase = async () => {
     await addData(nome, cognome, type, listaAnimal);
   };
+
+  /*useEffect(() => {
+    if (isRendering) {
+      setActiveStep(2);
+    }
+  }, [isRendering]);
+*/
   return (
     <div className="flex flex-col items-center max-w-8xl mx-auto justify-center ">
       <div className="w-full py-4 px-8">
@@ -313,7 +318,6 @@ const Register = () => {
       )}
       {activeStep === 2 && type === "cliente" && (
         <>
-          // @ts-ignore
           <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
           {animal === "Cane" && <AnimalDogList onSendBreed={catchBreed} />}
           {open ? (
