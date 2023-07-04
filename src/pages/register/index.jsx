@@ -363,7 +363,7 @@ const Register = () => {
       )}
       {activeStep === 2 && type === "venditore" && (
         <>
-          <CreateShop></CreateShop>
+          <CreateShop type={'register'}></CreateShop>
         </>
       )}
       {activeStep === 3 && type === "cliente" && (

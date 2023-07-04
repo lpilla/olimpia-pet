@@ -25,10 +25,10 @@ const CustomMarker = ({ marker }) => {
   const handleDialogOpen = () => {
     setDialogOpen((p) => !p);
   };
-  const icon = L.icon({
+  const icon = marker?.icon ? L.icon({
     iconUrl: marker?.icon,
     iconSize: [60, 60], // Adjust the size according to your icon
-  });
+  }) : null;
   return (
     <Marker
       position={marker.coordinates}
@@ -66,15 +66,15 @@ const CustomMarker = ({ marker }) => {
             <CardBody>
               <div className="flex flex-wrap gap-1">
                 {marker?.categories?.map((cat) => {
-                  return <Chip variant="ghost" value={cat} />;
+                  return <Chip variant="ghost" value={cat} key={cat} />;
                 })}
               </div>
               <Typography variant="h4" color="blue-gray" className="my-2">
                 Location:
               </Typography>
-              <Typography variant="p" color="blue-gray" className="my-2">
+              <p className="my-2">
                 {marker?.shopAddress}
-              </Typography>
+              </p>
               <Typography color="gray" className="font-normal mb-8">
                 {marker?.description}
               </Typography>
