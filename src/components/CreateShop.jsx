@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import MyCustomChip from "./MyCustomChip.jsx";
 import { UserContext } from "../context/UserContext.jsx";
 
-const CreateShop = () => {
+const CreateShop = ({type}) => {
   const [url, setUrl] = useState("");
   const navigate = useNavigate();
   const [services, setServices] = useState([]);
@@ -121,13 +121,13 @@ const CreateShop = () => {
   ];
   return (
     <Tabs value="shop">
-      <TabsHeader>
-        {data.map(({ label, value }) => (
-          <Tab key={value} value={value}>
-            <div className="flex items-center gap-2">{label}</div>
-          </Tab>
+      {type === "register" ?<TabsHeader>
+        {data.map(({label, value}) => (
+            <Tab key={value} value={value}>
+              <div className="flex items-center gap-2">{label}</div>
+            </Tab>
         ))}
-      </TabsHeader>
+      </TabsHeader> : null}
       <TabsBody>
         <TabPanel key="shop" value="shop">
           <form
