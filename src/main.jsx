@@ -11,11 +11,8 @@ import Home from "./pages/home/index";
 import { UserProvider } from "./context/UserContext";
 import { DatabaseProvider } from "./context/DatabaseContext";
 import Profile from "./pages/profile/index";
-<<<<<<< Updated upstream
 import HomeVenditore from "./pages/home_venditore/HomeVenditore.jsx";
-=======
 import LandingPage from "./pages/landingPage";
->>>>>>> Stashed changes
 
 const router = createBrowserRouter([
   {
