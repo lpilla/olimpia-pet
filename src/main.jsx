@@ -10,6 +10,7 @@ import Register from "./pages/register/index";
 import Home from "./pages/home/index";
 import { UserProvider } from "./context/UserContext";
 import { DatabaseProvider } from "./context/DatabaseContext";
+import Profile from "./pages/profile/index";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
   {
     path: "*",

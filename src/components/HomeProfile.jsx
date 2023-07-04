@@ -1,5 +1,6 @@
 import face from "../pages/home/face-2.jpg";
 import { useState } from "react";
+import {useNavigate } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -19,6 +20,10 @@ const HomeProfile = ({user,logout}) => {
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
+  const navigate = useNavigate();
+  const goToProfilePage = () => {
+    navigate("/profile");
+  }
   return (
     <Card className="bg-[#D9D9D9] fixed top-4 left-4 h-auto w-full max-w-[20rem] shadow-xl shadow-blue-gray-900/5 z-[9999]">
       <List>
@@ -68,7 +73,7 @@ const HomeProfile = ({user,logout}) => {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem>Analytics</ListItem>
+              <ListItem onClick={goToProfilePage}>Profile</ListItem>
               <ListItem>Reporting</ListItem>
               <ListItem>Projects</ListItem>
               <ListItem onClick={logout}>

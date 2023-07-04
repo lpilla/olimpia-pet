@@ -6,6 +6,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   fetchSignInMethodsForEmail,
+  sendEmailVerification,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
 } from "firebase/auth";
 import { auth, googleProvider } from "../lib/firebase";
 
@@ -42,6 +45,7 @@ export const useUser = () => {
         const user = userCredential.user;
         console.log(user);
         //navigate("/login");
+        sendEmailToVerification(email);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -49,6 +53,42 @@ export const useUser = () => {
         console.log(errorCode, errorMessage);
         // ..
       });
+  };
+
+  const sendEmailToVerification = (email) => {
+    const currentUser = auth.currentUser;
+    sendEmailVerification(currentUser)
+      .then(() => {
+        console.log("Email di verifica inviata");
+        signInWithLink(email);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const signInWithLink = (curretEmail) => {
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      let email = window.localStorage.getItem(curretEmail);
+      if (!email) {
+        email = window.prompt("Please provide your email for confirmation");
+      }
+      // The client SDK will parse the code from the link for you.
+      signInWithEmailLink(auth, email, window.location.href)
+        .then((result) => {
+          // Clear email from storage.
+          console.log(result);
+          window.localStorage.removeItem(curretEmail);
+          if (result.user) {
+            console.log("login effettuato");
+            console.log(result.user);
+          }
+          return true;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   const signInWithGoogle = async () => {
@@ -59,14 +99,25 @@ export const useUser = () => {
       console.error(err);
     }
   };
+
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [counter, setCounter] = useState(0);
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth,(user) => {
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
         setUser(user);
         setLoading(false);
-        // ...
+        console.log(user);
+        console.log(user.emailVerified);
+        if (user.emailVerified) {
+          setIsRedirecting(true);
+        }
+        console.log(isRedirecting);
+        if (user.emailVerified && !isRedirecting && counter < 1) {
+          setCounter(counter + 1);
+          //window.location.href = "/register";
+          console.log("Dovrei viaggiare da qualche parte perchè sono verificato");
+        } 
       } else {
         setUser(null);
         setLoading(false);
@@ -113,6 +164,8 @@ export const useUser = () => {
     sendRegister,
     loading,
     isEmailAlreadyRegistered,
+    signInWithLink,
+    isRedirecting,
   };
 };
 
