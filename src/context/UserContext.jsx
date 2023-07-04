@@ -11,7 +11,8 @@ import {
   signInWithEmailLink,
   updateProfile
 } from "firebase/auth";
-import { auth, googleProvider } from "../lib/firebase";
+import {auth, db, googleProvider} from "../lib/firebase";
+import {collection, getDocs, query, where} from "firebase/firestore";
 
 export const UserContext = createContext("");
 
@@ -22,6 +23,31 @@ export const useUser = () => {
     setUser(user);
   };
 
+  const [userObj,setUserObj] = useState({});
+
+  useEffect(()=> {
+    const addUserObj = async (user) => {
+      console.log(user.uid)
+      if (user) {
+        const q = query(
+            collection(db, "users"),
+            where("createdBy", "==", user.uid)
+        );
+        const querySnapshot = await getDocs(q);
+        let newData = {};
+        querySnapshot.forEach((doc) => {
+              setUserObj({
+                nome: doc.data().nome,
+                cognome : doc.data().cognome,
+                type : doc.data().type,
+                lista : doc.data().lista,
+              });
+        });
+      }
+    };
+    addUserObj(user)
+  },[user])
+  useEffect(()=>{console.log(userObj)},[userObj])
   const isEmailAlreadyRegistered = async (email) => {
     let isAlreadyRegistered = false;
     await fetchSignInMethodsForEmail(auth, email)
@@ -103,13 +129,14 @@ export const useUser = () => {
 
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [counter, setCounter] = useState(0);
+
   useEffect(() => {
     onAuthStateChanged(auth,(user) => {
       if (user) {
         setUser(user);
         setLoading(false);
         console.log(user);
-        console.log(user.emailVerified);
+        //console.log(user.emailVerified);
         if (user.emailVerified) {
           setIsRedirecting(true);
         }
@@ -178,7 +205,8 @@ export const useUser = () => {
     isEmailAlreadyRegistered,
     signInWithLink,
     isRedirecting,
-    updateDisplayName
+    updateDisplayName,
+    userObj
   };
 };
 
