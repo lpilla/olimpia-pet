@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Tabs,
   TabsHeader,
@@ -21,6 +21,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "../lib/firebase.js";
 import { useNavigate } from "react-router-dom";
 import MyCustomChip from "./MyCustomChip.jsx";
+import { UserContext } from "../context/UserContext.jsx";
 
 const CreateShop = () => {
   const [url, setUrl] = useState("");
@@ -31,6 +32,8 @@ const CreateShop = () => {
 
   // progress
   const [percent, setPercent] = useState(0);
+  const { user } = useContext(UserContext);
+  const { uid } = user;
 
   // Handle file upload event and update state
   function handleChange(event) {
@@ -67,6 +70,7 @@ const CreateShop = () => {
             ...formData,
             icon: url,
             categories: services,
+            createdBy: uid,
           });
 
           console.log("Document written with ID: ", docRef.id);
@@ -96,6 +100,7 @@ const CreateShop = () => {
   const provider = new OpenStreetMapProvider();
 
   const handleChangeAddress = async (e) => {
+    console.log("test");
     setFormData({ ...formData, shopAddress: e.target.value });
     const results = await provider.search({ query: e.target.value });
     setResults(results);

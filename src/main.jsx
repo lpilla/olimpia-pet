@@ -11,11 +11,16 @@ import Home from "./pages/home/index";
 import { UserProvider } from "./context/UserContext";
 import { DatabaseProvider } from "./context/DatabaseContext";
 import Profile from "./pages/profile/index";
+import HomeVenditore from "./pages/home_venditore/HomeVenditore.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/venditore",
+    element: <HomeVenditore />,
   },
   {
     path: "/login",
