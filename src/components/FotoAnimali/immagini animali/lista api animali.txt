@@ -1,0 +1,299 @@
+
+
+- lista cani:
+”razza generica” : [ “sotto razza specifica” ]
+https://dog.ceo/api/breeds/list/all
+
+
+- lista gatti:
+
+[
+  {
+    "nome": "Sphynx",
+    "origine": "Canada"
+  },
+  {
+    "nome": "Scottish Fold",
+    "origine": "Scozia"
+  },
+  {
+    "nome": "Persiano",
+    "origine": "Iran"
+  },
+  {
+    "nome": "Siamese",
+    "origine": "Thailandia"
+  },
+  {
+    "nome": "Birmano",
+    "origine": "Birmania"
+  },
+  {
+    "nome": "Bengala",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Maine Coon",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Siberiano",
+    "origine": "Russia"
+  },
+  {
+    "nome": "Manx",
+    "origine": "Isola di Man"
+  },
+  {
+    "nome": "Norvegese delle foreste",
+    "origine": "Norvegia"
+  },
+  {
+    "nome": "Ragdoll",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "British Shorthair",
+    "origine": "Regno Unito"
+  },
+  {
+    "nome": "Egyptian Mau",
+    "origine": "Egitto"
+  },
+  {
+    "nome": "American Shorthair",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Devon Rex",
+    "origine": "Regno Unito"
+  },
+  {
+    "nome": "Cornish Rex",
+    "origine": "Regno Unito"
+  },
+  {
+    "nome": "Bombay",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Ocicat",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Tonkinese",
+    "origine": "Canada"
+  },
+  {
+    "nome": "Himalayano",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Balinese",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Nebelung",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Singapura",
+    "origine": "Singapore"
+  },
+  {
+    "nome": "Munchkin",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Burmese",
+    "origine": "Myanmar"
+  },
+  {
+    "nome": "Turco van",
+    "origine": "Turchia"
+  },
+  {
+    "nome": "Exotic Shorthair",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Somalo",
+    "origine": "Somalia"
+  },
+  {
+    "nome": "Russian Blue",
+    "origine": "Russia"
+  },
+  {
+    "nome": "Pixie-bob",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "American Curl",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Highlander",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Korat",
+    "origine": "Thailandia"
+  },
+  {
+    "nome": "LaPerm",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Oriental Shorthair",
+    "origine": "Regno Unito"
+  },
+  {
+    "nome": "Peterbald",
+    "origine": "Russia"
+  },
+  {
+    "nome": "Savannah",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Toyger",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Lykoi",
+    "origine": "Stati Uniti"
+  },
+  {
+    "nome": "Bambino",
+    "origine": "Stati Uniti"
+  }
+]
+
+- lista criceti:
+
+
+{
+    "specie": "Criceto dorato",
+    "razze": [
+        {
+            "nome": "Mesocricetus auratus",
+            "origine": "Siria"
+        },
+        {
+            "nome": "Syrian Teddy Bear",
+            "origine": "Siria"
+        },
+        {
+            "nome": "Winter White",
+            "origine": "Russia, Mongolia e Cina"
+        },
+        {
+            "nome": "Campbell",
+            "origine": "Mongolia e Cina"
+        },
+        {
+            "nome": "Roborovski",
+            "origine": "Mongolia e Cina"
+        },
+        {
+            "nome": "Panda Bear",
+            "origine": "Russia"
+        }
+    ]
+},
+{
+    "specie": "Criceto russo",
+    "razze": [
+        {
+            "nome": "Phodopus sungorus",
+            "origine": "Russia"
+        },
+        {
+            "nome": "Phodopus campbelli",
+            "origine": "Mongolia e Cina"
+        },
+        {
+            "nome": "Sapphire",
+            "origine": "Russia"
+        }
+    ]
+},
+{
+    "specie": "Criceto cinese",
+    "razze": [
+        {
+            "nome": "Cricetulus griseus",
+            "origine": "Mongolia e Cina"
+        },
+        {
+            "nome": "Chinese Striped",
+            "origine": "Mongolia e Cina"
+        },
+        {
+            "nome": "Chinese Dwarf",
+            "origine": "Mongolia e Cina"
+        }
+    ]
+}
+
+
+
+
+
+- lista pappagalli:
+
+
+{
+"specie": "Pappagallo domestico",
+"razze": [
+{
+"nome": "Ara macao",
+"origine": "America Centrale e America del Sud"
+},
+{
+"nome": "Ara ararauna",
+"origine": "America del Sud"
+},
+{
+"nome": "Cacatua alba",
+"origine": "Australia"
+},
+{
+"nome": "Cacatua galerita",
+"origine": "Australia, Nuova Guinea e Indonesia"
+},
+{
+"nome": "Agapornis fischeri",
+"origine": "Africa"
+},
+{
+"nome": "Amazona aestiva",
+"origine": "America Centrale e Sud America"
+},
+{
+"nome": "Eclectus roratus",
+"origine": "Australia, Nuova Guinea e Indonesia"
+},
+{
+"nome": "Poicephalus senegalus",
+"origine": "Africa occidentale"
+},
+{
+"nome": "Psittacula krameri",
+"origine": "Asia e Africa"
+},
+{
+"nome": "Melopsittacus undulatus",
+"origine": "Australia"
+},
+{
+"nome": "Nymphicus hollandicus",
+"origine": "Australia"
+},
+{
+"nome": "Pyrrhura molinae",
+"origine": "Sud America"
+}
+]
+}
