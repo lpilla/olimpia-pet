@@ -6,6 +6,7 @@ export default withMT({
     extend: {
       colors: {
         "red-dark": "#8B0000",
+        navbar: "#3490dc",
       },
     },
   },

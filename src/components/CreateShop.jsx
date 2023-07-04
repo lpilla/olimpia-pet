@@ -118,11 +118,6 @@ const CreateShop = () => {
       value: "shop",
       desc: `Negozio negozioso`,
     },
-    {
-      label: "Servizio",
-      value: "service",
-      desc: `Servizio servizioso `,
-    },
   ];
   return (
     <Tabs value="shop">
@@ -226,10 +221,34 @@ const CreateShop = () => {
             </Button>
           </form>
         </TabPanel>
-        <TabPanel key="service" value="service">
-          <h1>Sedia</h1>
-          <input></input>
+        {
+          //Secondo Pannello
+          /*
+          <TabPanel key="Professionista" value="Professionista">
+          <form action="" className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+            <div className="mb-4 flex flex-col gap-6">
+              <Input size="lg" label="Indirizzo" type="text" required={true} />
+              <Input
+                label="Foto"
+                type={"file"}
+                accept="/image/*"
+                required={true}
+              />
+              <Input
+                size="lg"
+                type="text"
+                placeholder="    Inserire il servizio offerto"
+                required={true}
+              />
+              <Textarea size="lg" label="Descrizione"></Textarea>
+            </div>
+            <Button className="mt-6" fullWidth type="submit">
+              Register
+            </Button>
+          </form>
         </TabPanel>
+        */
+        }
       </TabsBody>
     </Tabs>
   );
