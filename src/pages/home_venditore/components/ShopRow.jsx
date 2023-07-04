@@ -13,15 +13,17 @@ import {
 import React, { useEffect, useState } from "react";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import { db } from "../../../lib/firebase.js";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc,deleteDoc } from "firebase/firestore";
 
-const ShopRow = ({ shop, classes, id }) => {
+const ShopRow = ({ shop, classes, id ,onDeleteRow}) => {
   const [open, setOpen] = useState(false);
+  const [errorOpen, setErrorOpen] = useState(false);
   useEffect(() => {
     console.log(id);
   }, [id]);
 
   const handleOpen = () => setOpen((p) => !p);
+  const handleErrorOpen = () => setErrorOpen((p) => !p);
 
   const [editable, setEditable] = useState(false);
   // const provider = new GoogleProvider({
@@ -68,6 +70,18 @@ const ShopRow = ({ shop, classes, id }) => {
   }, [editable]);
   // const [shopObj, setShopObj] = useState(shop);
   const [shopObj, setShopObj] = useState(shop);
+
+  const handleRemove = async () => {
+    try {
+      const docRef = doc(db, "stores", id);
+      await deleteDoc(docRef);
+      window.location.reload(false);
+      alert("Negozio Eliminato")
+    } catch (e) {
+      alert(e)
+    }
+  }
+
   return (
     <>
       <Dialog open={open} handler={handleOpen}>
@@ -87,6 +101,27 @@ const ShopRow = ({ shop, classes, id }) => {
             <span>Cancel</span>
           </Button>
           <Button variant="gradient" color="green" onClick={saveData}>
+            <span>Confirm</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
+      <Dialog open={errorOpen} handler={handleErrorOpen}>
+        <DialogHeader>Elimina Dati</DialogHeader>
+        <DialogBody divider>
+          Stai andando ad eliminare i dati del tuo negozio, questa azione è
+          irreversibile e in caso di errori non sarà più possibile ritornare
+          indietro, sei sicuro di volere continuare?
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={handleErrorOpen}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+          <Button variant="gradient" color="green" onClick={handleRemove}>
             <span>Confirm</span>
           </Button>
         </DialogFooter>
@@ -132,7 +167,7 @@ const ShopRow = ({ shop, classes, id }) => {
         <td className={classes}>
           <div className="flex gap-2">
             {shop.categories?.map((cat) => {
-              return <Chip value={cat} />;
+              return <Chip key={cat} value={cat} />;
             })}
           </div>
         </td>
@@ -145,13 +180,21 @@ const ShopRow = ({ shop, classes, id }) => {
             )}
 
             <Button
-              color="red"
+              color={editable ? 'red' : 'blue'}
               onClick={() => {
                 setEditable((prev) => !prev);
               }}
             >
               {editable ? "Undo" : "Edit"}
             </Button>
+            {!editable && <Button
+                color="red"
+                onClick={() => {
+                  handleErrorOpen()
+                }}
+            >
+              remove
+            </Button>}
           </div>
         </td>
       </tr>

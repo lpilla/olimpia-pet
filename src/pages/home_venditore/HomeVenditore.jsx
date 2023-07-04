@@ -69,13 +69,13 @@ const HomeVenditore = () => {
             {TABLE_ROWS.map((shop, index) => {
               const classes = "p-4 border-b border-blue-gray-50";
               return (
-                <div>
                   <ShopRow
+                      key={ids[index]}
                     shop={shop}
                     classes={classes}
                     id={ids[index]}
+
                   ></ShopRow>
-                </div>
               );
             })}
           </tbody>
