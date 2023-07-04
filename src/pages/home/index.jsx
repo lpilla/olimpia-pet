@@ -2,6 +2,8 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useMap, useMapEvents } from "react-leaflet/hooks";
 import face from "./face-2.jpg";
+import ReactLeafletGoogleLayer from "react-leaflet-google-layer";
+
 import { UserContext } from "../../context/UserContext";
 import {
   Dialog,
@@ -123,6 +125,11 @@ export default function Home() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
+          {/*<ReactLeafletGoogleLayer*/}
+          {/*  apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}*/}
+          {/*  type={"roadmap"}*/}
+          {/*/>*/}
+
           {markers.map((marker) => {
             return <CustomMarker marker={marker} key={marker.id} />;
           })}

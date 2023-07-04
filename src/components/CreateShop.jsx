@@ -89,11 +89,11 @@ const CreateShop = () => {
 
   const [results, setResults] = useState([]);
 
-  const provider = new GoogleProvider({
-    apiKey: "AIzaSyAexuKsKUvdmiKJeNc203Mc9ZBM7X77ojI",
-  });
+  // const provider = new GoogleProvider({
+  //   apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+  // });
 
-  // const provider = new OpenStreetMapProvider();
+  const provider = new OpenStreetMapProvider();
 
   const handleChangeAddress = async (e) => {
     setFormData({ ...formData, shopAddress: e.target.value });
