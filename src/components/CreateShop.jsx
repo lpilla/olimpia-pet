@@ -26,7 +26,7 @@ import { UserContext } from "../context/UserContext.jsx";
 const CreateShop = () => {
   const [url, setUrl] = useState("");
   const navigate = useNavigate();
-  const [services, setServices] = useState(["petShop", "parco"]);
+  const [services, setServices] = useState([]);
 
   const [file, setFile] = useState("");
 
