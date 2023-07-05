@@ -166,7 +166,7 @@ const Register = () => {
   const { addData } = useContext(databaseContext);
 
   const addDataToDatabase = async () => {
-    await addData(nome, cognome, type, listaAnimal);
+    await addData(nome, cognome, email, type, listaAnimal);
   };
 
   /*useEffect(() => {

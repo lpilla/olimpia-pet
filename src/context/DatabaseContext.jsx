@@ -1,25 +1,26 @@
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../lib/firebase";
-import {createContext, useContext} from "react";
-import {UserContext} from "./UserContext.jsx";
+import { createContext, useContext } from "react";
+import { UserContext } from "./UserContext.jsx";
 
 export const databaseContext = createContext(null);
 
 export const useDatabase = () => {
-
-  const {user} = useContext(UserContext);
-  const addData = async (nome, cognome, type, listaAnimal) => {
+  const { user } = useContext(UserContext);
+  const addData = async (nome, cognome, email, type, listaAnimal) => {
     try {
       const docRef = await addDoc(collection(db, "users"), {
         nome: nome,
 
         cognome: cognome,
 
+        email: email,
+
         type: type,
 
         lista: listaAnimal,
 
-        createdBy: user.uid
+        createdBy: user.uid,
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
