@@ -28,20 +28,19 @@ import {
 const LandingPage = () => {
   return (
     <>
-      <Navbar
-        variant="gradient"
-        color="blue-gray"
-        className="mx-auto w-full from-blue-gray-900 to-blue-gray-800 px-4 py-3"
-      >
-        <div className="flex flex-wrap items-center justify-between gap-y-4 text-white">
-          <Typography
-            as="a"
-            href="#"
-            variant="h6"
-            className="mr-4 ml-2 cursor-pointer py-1.5"
-          >
-            Olimpya Pet
-          </Typography>
+      <div className="flex items-center justify-center">
+        <Navbar
+          variant="gradient"
+          color="blue-gray"
+          className="w-1/2 h-1/2 from-blue-gray-900 to-blue-gray-800 px-4 py-3 flex items-center"
+        >
+          <div className="ml-2 mr-4">
+            <img
+              src="src\components\FotoAnimali\logo\logo pet trip.png"
+              alt="logo sito"
+            />
+          </div>
+
           <div className="relative flex w-full gap-2 md:w-max">
             <Input
               type="search"
@@ -60,54 +59,56 @@ const LandingPage = () => {
               Search
             </Button>
           </div>
-        </div>
-      </Navbar>
+        </Navbar>
+      </div>
       <Map />
       <Dashboard />
     </>
   );
 };
 
+
 export default LandingPage;
 
 const Dashboard = () => {
   return (
-    <div className="flex justify-center items-center w-full">
-      <Card className="mx-auto w-full h-full from-blue-gray-900 to-blue-gray-800 px-4 py-3">
+    <div className="">
+      <Card className="w-full h-full from-blue-gray-900 to-blue-gray-800 justify-center items-center">
         <div className="mb-2 p-4">
           <Typography
             variant="h5"
             color="blue-gray"
             className="flex items-center"
-          >
-          </Typography>
+          ></Typography>
         </div>
-        <div className="flex flex-wrap justify-center h-full">
-          <div className="w-full sm:w-1/2">
-            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white">
-              <button className="p-10 flex items-center justify-center h-full">
+        <div className="flex flex-wrap justify-center">
+          <div className="w-full w-all mb-5">
+            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white items-center justify-center flex flex-row">
+              <button className="p-10 flex items-center justify-center">
                 Viaggi
               </button>
             </ListItem>
           </div>
-          <div className="w-full sm:w-1/2">
-            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white sm:ml-2.5">
-              <button className="p-10 flex items-center justify-center h-full">
+          <div className="w-full w-all mb-5">
+            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white items-center justify-center flex flex-row">
+              <button className="p-10 flex items-center justify-center">
                 Servizi
               </button>
             </ListItem>
           </div>
-          <div className="w-full sm:w-1/2">
-            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white mb-4 sm:mr-2.5">
-              <button className="p-10 flex items-center justify-center h-full">
+          <div className="w-full w-all mb-5">
+            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white mb-4 sm:mr-2.5 items-center justify-center flex flex-row">
+              <button className="p-10 flex items-center justify-center">
                 Eventi
               </button>
             </ListItem>
           </div>
-          <div className="w-full sm:w-1/2">
-            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white sm:ml-2.5">
-              <button className="p-10 flex items-center justify-center h-full">
-                News
+          <div className="w-full w-all mb-5">
+            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white items-center justify-center flex flex-row">
+              <button className="p-10"> 
+                <h2>
+                  News
+                </h2>
               </button>
             </ListItem>
           </div>
@@ -117,11 +118,13 @@ const Dashboard = () => {
   );
 };
 
+
+
 const Map = () => {
   return (
-    <div className="flex justify-center items-center">
-      <Card className="mt-12 w-96 bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white">
-        <CardHeader className="relative ">
+    <div className=" w-auto h-auto justify-center items-center ">
+      <Card className="h-full items-center justify-center bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white mt-5">
+        <CardHeader className=" ">
           <img layout="fill" />
         </CardHeader>
         <CardBody>
