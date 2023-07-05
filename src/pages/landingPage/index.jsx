@@ -13,6 +13,9 @@ import {
   ListItemPrefix,
   ListItemSuffix,
   Chip,
+  CardHeader,
+  CardBody,
+  CardFooter,
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
@@ -28,7 +31,7 @@ const LandingPage = () => {
       <Navbar
         variant="gradient"
         color="blue-gray"
-        className="mx-auto max-w-screen-xl from-blue-gray-900 to-blue-gray-800 px-4 py-3"
+        className="mx-auto w-full from-blue-gray-900 to-blue-gray-800 px-4 py-3"
       >
         <div className="flex flex-wrap items-center justify-between gap-y-4 text-white">
           <Typography
@@ -59,54 +62,74 @@ const LandingPage = () => {
           </div>
         </div>
       </Navbar>
+      <Map />
       <Dashboard />
     </>
   );
 };
+
 export default LandingPage;
 
 const Dashboard = () => {
   return (
-    <Card className="fixed top-100 left-4 h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
-      <div className="mb-2 p-4">
-        <Typography
-          variant="h5"
-          color="blue-gray"
-          className="flex items-center"
-        >
-          Bho
-        </Typography>
-      </div>
-      <List>
-        <ListItem className="bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white">
-          <button className="p-10 flex items-center justify-center">
-            Viaggi
-          </button>
-        </ListItem>
-        <ListItem className="bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white">
-          <button className="p-10 flex items-center justify-center">
-            Servizi
-          </button>
-        </ListItem>
-        <ListItem className="bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white">
-          <button className="p-10 flex items-center justify-center">
-            Eventi
-          </button>
-        </ListItem>
-        <ListItem className="bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white">
-          <button className="p-10 flex items-center justify-center">
-            News
-          </button>
-        </ListItem>
-      </List>
-    </Card>
+    <div className="flex justify-center items-center w-full">
+      <Card className="mx-auto w-full h-full from-blue-gray-900 to-blue-gray-800 px-4 py-3">
+        <div className="mb-2 p-4">
+          <Typography
+            variant="h5"
+            color="blue-gray"
+            className="flex items-center"
+          >
+          </Typography>
+        </div>
+        <div className="flex flex-wrap justify-center h-full">
+          <div className="w-full sm:w-1/2">
+            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white">
+              <button className="p-10 flex items-center justify-center h-full">
+                Viaggi
+              </button>
+            </ListItem>
+          </div>
+          <div className="w-full sm:w-1/2">
+            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white sm:ml-2.5">
+              <button className="p-10 flex items-center justify-center h-full">
+                Servizi
+              </button>
+            </ListItem>
+          </div>
+          <div className="w-full sm:w-1/2">
+            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white mb-4 sm:mr-2.5">
+              <button className="p-10 flex items-center justify-center h-full">
+                Eventi
+              </button>
+            </ListItem>
+          </div>
+          <div className="w-full sm:w-1/2">
+            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white sm:ml-2.5">
+              <button className="p-10 flex items-center justify-center h-full">
+                News
+              </button>
+            </ListItem>
+          </div>
+        </div>
+      </Card>
+    </div>
   );
 };
 
 const Map = () => {
   return (
-    <div>
-      <h1>Mappa</h1>
+    <div className="flex justify-center items-center">
+      <Card className="mt-12 w-96 bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white">
+        <CardHeader className="relative ">
+          <img layout="fill" />
+        </CardHeader>
+        <CardBody>
+          <Typography variant="h5" color="white" className="mb-2">
+            MAPPA
+          </Typography>
+        </CardBody>
+      </Card>
     </div>
   );
 };

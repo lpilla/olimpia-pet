@@ -117,8 +117,10 @@ export default function Home() {
           doubleClickZoom={false}
           className={"map-container"}
         >
-          <div className="buttons">
-            <button onClick={() => tekeMeToCenter()}>take me to center</button>
+          <div class="buttons mt-2 ml-2">
+            <button class="bg-white rounded-full py-2 px-4 shadow-md" onClick={() => tekeMeToCenter()}>
+              take me to center
+              </button>
           </div>
           <TileLayer
             noWrap={true}
