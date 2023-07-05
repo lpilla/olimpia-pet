@@ -11,11 +11,19 @@ const AnimalCard = ({ breed }) => {
   const [foto, setFoto] = useState("");
 
   useEffect(() => {
-    fetch("https://dog.ceo/api/breed/" + breed + "/images/random")
-      .then((response) => response.json())
-      .then((json) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://dog.ceo/api/breed/" + breed + "/images/random"
+        );
+        const json = await response.json();
         setFoto(json);
-      });
+      } catch (error) {
+        console.error("Errore durante il recupero delle immagini:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
