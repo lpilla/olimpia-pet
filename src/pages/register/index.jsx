@@ -386,6 +386,7 @@ const Register = () => {
               type="submit"
               disabled={listaAnimal.length === 0}
               onClick={() => {
+                addDataToDatabase();
                 navigate("/home");
               }}
             >
@@ -451,12 +452,6 @@ const Register = () => {
           null
         )}
       </h5>
-      <button
-        onClick={addDataToDatabase}
-        className="bg-red-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Invia Dati
-      </button>
     </div>
   );
 };
