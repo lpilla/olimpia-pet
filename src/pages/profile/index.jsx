@@ -82,23 +82,37 @@ export default function Profile() {
 
 const ProfileSettings = () => {
 
-  const {user,updateDisplayName} = useContext(UserContext);
+  const {user,updateDisplayName, userObj} = useContext(UserContext);
   const [editing, setEditing] = useState(0);
-  const [newName, setNewName] = useState(user.displayName);
-  const [previousName, setPreviousName] = useState(user.displayName);
+  const [newName, setNewName] = useState(userObj.nome);
+  const [previousName, setPreviousName] = useState(userObj.nome);
+  const [newSurname, setNewSurname] = useState(userObj.cognome);
+  const [previousSurname, setPreviousSurname] = useState(userObj.cognome);
 
   const handleEditClick = (index) => {
     setEditing(index);
   }
 
   const handleConfirmClick = async () => {
-    await updateDisplayName(newName);
+    if (editing === 1){
+      await updateDisplayName(newName);
+      //update nel registro
+    }
+    if (editing === 2){
+      //update registro
+    }
     setEditing(0);
     setPreviousName(newName);
+    setPreviousSurname(newSurname);
   }
 
   const handleUndoClick = () => {
-    setNewName(previousName);
+    if (editing === 1){
+      setNewName(previousName);
+    }
+    if (editing === 2){
+      setNewSurname(previousSurname);
+    }
     setEditing(0);
   }
   console.log(user)
@@ -145,13 +159,13 @@ const ProfileSettings = () => {
             <div className="flex pl-10 w-[full-4rem] h-[5rem] border-2 border-r-2 rounded-lg border-blue-300 ml-[10rem] mr-[10rem]">
               <div className="flex justify-center items-center">
                 <Typography variant="h4" className="flex pr-4">Cognome: </Typography>
-                <Typography variant="h5"> {user.email}</Typography>
+                <Typography variant="h5"> {previousSurname}</Typography>
               </div>
             </div>
         <div className="flex pl-10 w-[full-4rem] h-[5rem] border-2 border-r-2 rounded-lg border-blue-300 ml-[10rem] mr-[10rem]">
           <div className="flex justify-center items-center">
             <Typography variant="h4" className="flex pr-4">Email: </Typography>
-            <Typography variant="h5"> {user.email}</Typography>
+            <Typography variant="h5"> {userObj.email}</Typography>
           </div>
         </div>
       </div>

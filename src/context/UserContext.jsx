@@ -39,6 +39,7 @@ export const useUser = () => {
               setUserObj({
                 nome: doc.data().nome,
                 cognome : doc.data().cognome,
+                email : doc.data().email,
                 type : doc.data().type,
                 lista : doc.data().lista,
               });

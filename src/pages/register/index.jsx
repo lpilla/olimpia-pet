@@ -147,6 +147,7 @@ const Register = () => {
         const isRegistered = await isEmailAlreadyRegistered(email);
         if (isRegistered === false) {
           await sendRegister(email, password);
+          console.log("Lorelepsum")
           await updateDisplayName(nome);
           changeStep(e);
         } else {
