@@ -15,7 +15,7 @@ import {
   PowerIcon,
 } from "@heroicons/react/24/solid";
 import io from "../../assets/images/Io_circle.png";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../context/UserContext.jsx";
 export default function Profile() {
   const [index, setIndex] = useState(0);
@@ -26,7 +26,7 @@ export default function Profile() {
 
   return (
     <div className="flex flex-row h-[calc(100vh-1rem)] m-2">
-      <Card className="w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 border-green-400 border-solid border-2">
+      <Card className="flex w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 border-green-400 border-solid border-2">
         <div className="flex flex-col items-center justify-center w-full text-center ">
           <Avatar
             src={io}
@@ -83,23 +83,23 @@ export default function Profile() {
 const ProfileSettings = () => {
 
   const {user,updateDisplayName} = useContext(UserContext);
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(0);
   const [newName, setNewName] = useState(user.displayName);
   const [previousName, setPreviousName] = useState(user.displayName);
 
-  const handleEditClick = () => {
-    setEditing(true);
+  const handleEditClick = (index) => {
+    setEditing(index);
   }
 
   const handleConfirmClick = async () => {
     await updateDisplayName(newName);
-    setEditing(false);
+    setEditing(0);
     setPreviousName(newName);
   }
 
   const handleUndoClick = () => {
     setNewName(previousName);
-    setEditing(false);
+    setEditing(0);
   }
   console.log(user)
   return (
@@ -113,56 +113,47 @@ const ProfileSettings = () => {
               size="xxl"
           />
         </div>
-        {editing ? (
-            <div className="flex items-center justify-center">
-              <Input
-                  label={"nome"}
-                  type={"Text"}
-                  className="focus:!border-t-blue-500 focus:!border-blue-500 ring-4 ring-transparent focus:ring-blue-500/20 !border !border-blue-gray-50 bg-white shadow-lg shadow-blue-gray-900/5 placeholder:text-blue-gray-200 text-blue-gray-500"
-                  labelProps={{className: "hidden"}}
-                  required={true}
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-              />
-              <button onClick={handleConfirmClick}>Confirm</button>
-              <button onClick={handleUndoClick}>Undo</button>
+        {editing === 1 ? (
+            <div className="grid grid-cols-2 gap-[20rem] grid-rows-1 w-[full-4rem] h-[5rem] border-2 border-r-2 rounded-lg border-blue-300 ml-[10rem] mr-[10rem]">
+              <div className="flex justify-center items-center ">
+                <Input
+                    label={"nome"}
+                    type={"Text"}
+                    className="focus:!border-t-blue-500 focus:!border-blue-500 ring-4 ring-transparent focus:ring-blue-500/20 !border !border-blue-gray-50 bg-white shadow-lg shadow-blue-gray-900/5 placeholder:text-blue-gray-200 text-blue-gray-500"
+                    labelProps={{className: "hidden"}}
+                    required={true}
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                />
+              </div>
+              <div className="flex space-x-4 justify-center items-center">
+                <Button variant="text" onClick={handleConfirmClick}>Confirm</Button>
+                <Button variant="text" className="text-red-500" onClick={handleUndoClick}>Undo</Button>
+              </div>
             </div>
         ) : (
             <div className="grid grid-cols-2 gap-[20rem] grid-rows-1 w-[full-4rem] h-[5rem] border-2 border-r-2 rounded-lg border-blue-300 ml-[10rem] mr-[10rem]">
-              <div className="flex justify-center items-center">
+              <div className="flex items-center pl-10">
                 <Typography variant="h4" className="flex pr-4">Nome: </Typography>
                 <Typography variant="h5"> {previousName}</Typography>
               </div>
               <div className="flex justify-center items-center">
-                <Button variant="text" onClick={handleEditClick}>Edit</Button>
+                <Button variant="text" onClick={() => handleEditClick(1)}>Edit</Button>
               </div>
             </div>
         )}
-        {editing ? (
-            <div className="flex items-center justify-center">
-              <Input
-                  label={"nome"}
-                  type={"Text"}
-                  className="focus:!border-t-blue-500 focus:!border-blue-500 ring-4 ring-transparent focus:ring-blue-500/20 !border !border-blue-gray-50 bg-white shadow-lg shadow-blue-gray-900/5 placeholder:text-blue-gray-200 text-blue-gray-500"
-                  labelProps={{className: "hidden"}}
-                  required={true}
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-              />
-              <button onClick={handleConfirmClick}>Confirm</button>
-              <button onClick={handleUndoClick}>Undo</button>
-            </div>
-        ) : (
-            <div className="grid grid-cols-2 gap-[20rem] grid-rows-1 w-[full-4rem] h-[5rem] border-2 border-r-2 rounded-lg border-blue-300 ml-[10rem] mr-[10rem]">
+            <div className="flex pl-10 w-[full-4rem] h-[5rem] border-2 border-r-2 rounded-lg border-blue-300 ml-[10rem] mr-[10rem]">
               <div className="flex justify-center items-center">
                 <Typography variant="h4" className="flex pr-4">Cognome: </Typography>
-                <Typography variant="h5"> {previousName}</Typography>
-              </div>
-              <div className="flex justify-center items-center">
-                <Button variant="text" onClick={handleEditClick}>Edit</Button>
+                <Typography variant="h5"> {user.email}</Typography>
               </div>
             </div>
-        )}
+        <div className="flex pl-10 w-[full-4rem] h-[5rem] border-2 border-r-2 rounded-lg border-blue-300 ml-[10rem] mr-[10rem]">
+          <div className="flex justify-center items-center">
+            <Typography variant="h4" className="flex pr-4">Email: </Typography>
+            <Typography variant="h5"> {user.email}</Typography>
+          </div>
+        </div>
       </div>
   );
 };
