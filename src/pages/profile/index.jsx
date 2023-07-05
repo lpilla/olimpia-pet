@@ -17,9 +17,10 @@ import {
 import io from "../../assets/images/Io_circle.png";
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../context/UserContext.jsx";
+import {useNavigate} from "react-router-dom";
 export default function Profile() {
   const [index, setIndex] = useState(0);
-
+  const { logOut } = useContext(UserContext)
   const handleIndex = (value) => {
     setIndex(value);
   };
@@ -64,11 +65,11 @@ export default function Profile() {
             </ListItemPrefix>
             Settings
           </ListItem>
-          <ListItem>
+          <ListItem onClick={logOut}>
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>
-            Log Out
+            Logout
           </ListItem>
         </List>
       </Card>

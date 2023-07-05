@@ -16,8 +16,6 @@ import AnimalSelect from "../../components/animalSelect";
 import { FaGoogle, FaApple } from "react-icons/fa";
 import AnimalCard from "../../components/animalCard";
 import AnimalName from "../../components/AnimalName";
-import { db } from "../../lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
 import AnimalTable from "../../components/AnimalTable";
 import { UserContext } from "../../context/UserContext.jsx";
 import CreateShop from "../../components/CreateShop";
@@ -38,6 +36,13 @@ const Register = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
+
+  const handleTypeChange = (e,value) => {
+    setType(value);
+    setData({ ...data, type: value });
+    console.log("Dati type settati")
+    changeStep();
+  };
 
   const changeStep = (e) => {
     e.preventDefault();
@@ -114,13 +119,11 @@ const Register = () => {
   } = useContext(UserContext);
 
   const navigate = useNavigate();
-
+  const [isSignWithGoogle, setIsSignWithGoogle] = useState(false)
   const signInGoogle = async () => {
     await signInWithGoogle();
-    //<Navigate replace to="/home"/>;
-
-    console.log("Viaggo verso la home e oltre");
-    navigate("/home");
+    setIsSignWithGoogle(true)
+    setActiveStep(1)
   };
 
   function allDataInserted() {
@@ -170,14 +173,8 @@ const Register = () => {
     await addData(data);
   };
 
-  /*useEffect(() => {
-    if (isRendering) {
-      setActiveStep(2);
-    }
-  }, [isRendering]);
-*/
   return (
-    <div className="flex flex-col items-center max-w-8xl mx-auto justify-center relative min-h-screen">
+    <div className="flex flex-col items-center max-w-8xl mx-auto relative min-h-screen max-h-full">
       <svg
         preserveAspectRatio="xMidYMid slice"
         viewBox="10 10 80 80"
@@ -213,7 +210,7 @@ const Register = () => {
           d="M102,67.1c-9.6-6.1-22-3.1-29.5,2-15.4,10.7-19.6,37.5-7.6,47.8s35.9,3.9,44.5-12.5C115.5,92.6,113.9,74.6,102,67.1Z"
         />
       </svg>
-      <div className="w-full py-4 px-8">
+      <div className="w-full py-4 px-8 ">
         <Stepper
           activeStep={activeStep}
           isLastStep={(value) => setIsLastStep(value)}
@@ -357,6 +354,9 @@ const Register = () => {
       {activeStep === 1 && isChecked && (
         <Authentication changeStep={changeStep} handlePrev={handlePrev} />
       )}
+      {activeStep === 1 && isSignWithGoogle &&(
+          <IfGoogleStepType handleTypeChange={handleTypeChange} setType={type}/>
+      )}
       {activeStep === 2 && type === "cliente" && (
         <>
           <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
@@ -398,13 +398,15 @@ const Register = () => {
       )}
       {activeStep === 4 && type === "cliente" && addingStatus && (
         <>
-          // @ts-ignore
           <AnimalSelection onSendAnimal={catchAnimal} handlePrev={handlePrev} />
           {animal === "Cane" && <AnimalDogList onSendBreed={catchBreed} />}
           {open ? (
             <AnimalName sendOpen={catchOpen} sendValue={catchNewAnimal} />
           ) : null}
         </>
+      )}
+      {activeStep === 5 && !type === null &&(
+          <ifGoogleStepType/>
       )}
       <pre>{JSON.stringify(data, 2, null)}</pre>
 
@@ -581,5 +583,45 @@ const AnimalDogList = ({ onSendBreed }) => {
         ))}
       </div>
     </div>
+  );
+};
+//da sistemare
+const IfGoogleStepType = ({ handleTypeChange, type }) => {
+  return (
+      <div className="flex flex-col columns-1">
+        <h1>Selezione che tipo di utente sei</h1>
+        <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleTypeChange(type);
+            }}
+        >
+          <div className="flex gap-10 justify-center">
+            <Radio
+                id="cliente"
+                name="type"
+                label="Cliente"
+                value="cliente"
+                onChange={() => handleTypeChange("cliente")}
+                checked={type === "cliente"}
+                required={true}
+            />
+            <Radio
+                id="venditore"
+                name="type"
+                label="Venditore"
+                value="venditore"
+                onChange={() => handleTypeChange("venditore")}
+                checked={type === "venditore"}
+                required={true}
+            />
+          </div>
+          <div>
+            <Button className="mt-4" fullWidth type="submit">
+              Invia
+            </Button>
+          </div>
+        </form>
+      </div>
   );
 };
