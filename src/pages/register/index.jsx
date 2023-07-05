@@ -229,7 +229,11 @@ const Register = () => {
       <Typography color="gray" className="mt-1 font-normal text-left">
         Inserisci i tuoi dati
       </Typography>
-      <Card color="transparent" shadow={false}>
+      <Card
+        color="transparent"
+        shadow={true}
+        className={"bg-white p-5 bg-opacity-70"}
+      >
         {activeStep === 0 && (
           <form
             action=""
@@ -363,7 +367,7 @@ const Register = () => {
       )}
       {activeStep === 2 && type === "venditore" && (
         <>
-          <CreateShop type={'register'}></CreateShop>
+          <CreateShop type={"register"}></CreateShop>
         </>
       )}
       {activeStep === 3 && type === "cliente" && (
