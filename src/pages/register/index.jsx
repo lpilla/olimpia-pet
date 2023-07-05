@@ -37,10 +37,10 @@ const Register = () => {
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
 
-  const handleTypeChange = (e,value) => {
+  const handleTypeChange = (e, value) => {
     setType(value);
     setData({ ...data, type: value });
-    console.log("Dati type settati")
+    console.log("Dati type settati");
     changeStep();
   };
 
@@ -119,11 +119,11 @@ const Register = () => {
   } = useContext(UserContext);
 
   const navigate = useNavigate();
-  const [isSignWithGoogle, setIsSignWithGoogle] = useState(false)
+  const [isSignWithGoogle, setIsSignWithGoogle] = useState(false);
   const signInGoogle = async () => {
     await signInWithGoogle();
-    setIsSignWithGoogle(true)
-    setActiveStep(1)
+    setIsSignWithGoogle(true);
+    setActiveStep(1);
   };
 
   function allDataInserted() {
@@ -150,7 +150,7 @@ const Register = () => {
         const isRegistered = await isEmailAlreadyRegistered(email);
         if (isRegistered === false) {
           await sendRegister(email, password);
-          console.log("Lorelepsum")
+          console.log("Lorelepsum");
           //await updateDisplayName(nome);
           changeStep(e);
         } else {
@@ -173,6 +173,12 @@ const Register = () => {
     await addData(data);
   };
 
+  /*useEffect(() => {
+    if (isRendering) {
+      setActiveStep(2);
+    }
+  }, [isRendering]);
+*/
   return (
     <div className="flex flex-col items-center max-w-8xl mx-auto relative min-h-screen max-h-full">
       <svg
@@ -227,12 +233,13 @@ const Register = () => {
       <Typography color="gray" className="mt-1 font-normal text-left">
         Inserisci i tuoi dati
       </Typography>
-      <Card
-        color="transparent"
-        shadow={true}
-        className={"bg-white p-5 bg-opacity-70"}
-      >
-        {activeStep === 0 && (
+
+      {activeStep === 0 && (
+        <Card
+          color="transparent"
+          shadow={true}
+          className={"bg-white p-5 bg-opacity-70"}
+        >
           <form
             action=""
             className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
@@ -349,13 +356,14 @@ const Register = () => {
               </IconButton>
             </div>
           </form>
-        )}
-      </Card>
+        </Card>
+      )}
+
       {activeStep === 1 && isChecked && (
         <Authentication changeStep={changeStep} handlePrev={handlePrev} />
       )}
-      {activeStep === 1 && isSignWithGoogle &&(
-          <IfGoogleStepType handleTypeChange={handleTypeChange} setType={type}/>
+      {activeStep === 1 && isSignWithGoogle && (
+        <IfGoogleStepType handleTypeChange={handleTypeChange} setType={type} />
       )}
       {activeStep === 2 && type === "cliente" && (
         <>
@@ -405,9 +413,7 @@ const Register = () => {
           ) : null}
         </>
       )}
-      {activeStep === 5 && !type === null &&(
-          <ifGoogleStepType/>
-      )}
+      {activeStep === 5 && !type === null && <ifGoogleStepType />}
       <pre>{JSON.stringify(data, 2, null)}</pre>
 
       <h1>I dati inseriti sono: </h1>
@@ -468,24 +474,9 @@ const Authentication = ({ changeStep, handlePrev }) => {
         onSubmit={changeStep}
       >
         <h2 className="text-xl font-bold mb-4">
-          Controllare la posta ed inserisci il codice ricevuto
+          Controllare la posta, per verificare l'email
         </h2>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-bold mb-2"
-            htmlFor="confirmationCode"
-          >
-            Codice di 6 cifre
-          </label>
-          <div
-            className="w-full"
-            id="confirmationCode"
-            // @ts-ignore
-            type="text"
-          >
-            <Input label="Codice Conferma " />
-          </div>
-        </div>
+
         <h4 className="text-sm mb-4">
           Non hai ricevuto nessuna email?
           <Link className="text-blue-500 hover:text-blue-700" to="/register">
@@ -502,7 +493,7 @@ const Authentication = ({ changeStep, handlePrev }) => {
             Indietro
           </Button>
           <Button className="mt-6" type="submit">
-            Conferma
+            Email Confermata
           </Button>
         </div>
       </form>
@@ -588,40 +579,40 @@ const AnimalDogList = ({ onSendBreed }) => {
 //da sistemare
 const IfGoogleStepType = ({ handleTypeChange, type }) => {
   return (
-      <div className="flex flex-col columns-1">
-        <h1>Selezione che tipo di utente sei</h1>
-        <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleTypeChange(type);
-            }}
-        >
-          <div className="flex gap-10 justify-center">
-            <Radio
-                id="cliente"
-                name="type"
-                label="Cliente"
-                value="cliente"
-                onChange={() => handleTypeChange("cliente")}
-                checked={type === "cliente"}
-                required={true}
-            />
-            <Radio
-                id="venditore"
-                name="type"
-                label="Venditore"
-                value="venditore"
-                onChange={() => handleTypeChange("venditore")}
-                checked={type === "venditore"}
-                required={true}
-            />
-          </div>
-          <div>
-            <Button className="mt-4" fullWidth type="submit">
-              Invia
-            </Button>
-          </div>
-        </form>
-      </div>
+    <div className="flex flex-col columns-1">
+      <h1>Selezione che tipo di utente sei</h1>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleTypeChange(type);
+        }}
+      >
+        <div className="flex gap-10 justify-center">
+          <Radio
+            id="cliente"
+            name="type"
+            label="Cliente"
+            value="cliente"
+            onChange={() => handleTypeChange("cliente")}
+            checked={type === "cliente"}
+            required={true}
+          />
+          <Radio
+            id="venditore"
+            name="type"
+            label="Venditore"
+            value="venditore"
+            onChange={() => handleTypeChange("venditore")}
+            checked={type === "venditore"}
+            required={true}
+          />
+        </div>
+        <div>
+          <Button className="mt-4" fullWidth type="submit">
+            Invia
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 };
