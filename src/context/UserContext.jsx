@@ -27,7 +27,6 @@ export const useUser = () => {
 
   useEffect(()=> {
     const addUserObj = async (user) => {
-      console.log(user.uid)
       if (user) {
         const q = query(
             collection(db, "users"),
@@ -37,11 +36,11 @@ export const useUser = () => {
         let newData = {};
         querySnapshot.forEach((doc) => {
               setUserObj({
-                nome: doc.data().nome,
-                cognome : doc.data().cognome,
-                email : doc.data().email,
-                type : doc.data().type,
-                lista : doc.data().lista,
+                nome: doc.data().data.nome,
+                cognome : doc.data().data.cognome,
+                email : doc.data().data.email,
+                type : doc.data().data.type,
+                lista : doc.data().data.lista,
               });
         });
       }
@@ -183,9 +182,9 @@ export const useUser = () => {
       console.error(err);
     }
   };
-  const updateDisplayName = async (nome) =>{
+  /*const updateDisplayName = async (nome) =>{
     const currentUser = auth.currentUser
-    console.log("Utente corrente" + currentUser.uid)
+    //console.log("Utente corrente" + currentUser.uid)
     await updateProfile(currentUser, {
       displayName: nome, photoURL: null
     }).then(() => {
@@ -194,7 +193,7 @@ export const useUser = () => {
     }).catch((error) => {
       console.log("Nome profilo non aggiornato")
     });
-  }
+  }*/
   return {
     user,
     addUser,
@@ -206,7 +205,7 @@ export const useUser = () => {
     isEmailAlreadyRegistered,
     signInWithLink,
     isRedirecting,
-    updateDisplayName,
+    //updateDisplayName,
     userObj
   };
 };

@@ -148,7 +148,7 @@ const Register = () => {
         if (isRegistered === false) {
           await sendRegister(email, password);
           console.log("Lorelepsum")
-          await updateDisplayName(nome);
+          //await updateDisplayName(nome);
           changeStep(e);
         } else {
           alert("Email già registrata");
@@ -167,7 +167,7 @@ const Register = () => {
   const { addData } = useContext(databaseContext);
 
   const addDataToDatabase = async () => {
-    await addData(nome, cognome, email, type, listaAnimal);
+    await addData(data);
   };
 
   /*useEffect(() => {
@@ -368,7 +368,7 @@ const Register = () => {
       )}
       {activeStep === 2 && type === "venditore" && (
         <>
-          <CreateShop type={"register"}></CreateShop>
+          <CreateShop type={"register"} dataObj={data}></CreateShop>
         </>
       )}
       {activeStep === 3 && type === "cliente" && (

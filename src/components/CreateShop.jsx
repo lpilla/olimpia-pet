@@ -22,12 +22,12 @@ import { db } from "../lib/firebase.js";
 import { useNavigate } from "react-router-dom";
 import MyCustomChip from "./MyCustomChip.jsx";
 import { UserContext } from "../context/UserContext.jsx";
+import {databaseContext} from "../context/DatabaseContext.jsx";
 
-const CreateShop = ({type}) => {
+const CreateShop = ({ type, dataObj }) => {
   const [url, setUrl] = useState("");
   const navigate = useNavigate();
   const [services, setServices] = useState([]);
-
   const [file, setFile] = useState("");
 
   // progress
@@ -81,11 +81,20 @@ const CreateShop = ({type}) => {
       }
     );
   };
+
+  const { addData } = useContext(databaseContext)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
     try {
-      handleUpload();
+      await handleUpload();
+      if (dataObj)
+      {
+        console.log(dataObj)
+        await addData(dataObj);
+      }
+      console.log("sto inviando i dati")
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -119,6 +128,7 @@ const CreateShop = ({type}) => {
       desc: `Negozio negozioso`,
     },
   ];
+
   return (
     <Tabs value="shop">
       {type === "register" ?<TabsHeader>

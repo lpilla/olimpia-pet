@@ -95,7 +95,7 @@ const ProfileSettings = () => {
 
   const handleConfirmClick = async () => {
     if (editing === 1){
-      await updateDisplayName(newName);
+      //await updateDisplayName(newName);
       //update nel registro
     }
     if (editing === 2){

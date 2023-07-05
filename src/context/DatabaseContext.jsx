@@ -7,19 +7,10 @@ export const databaseContext = createContext(null);
 
 export const useDatabase = () => {
   const { user } = useContext(UserContext);
-  const addData = async (nome, cognome, email, type, listaAnimal) => {
+  const addData = async (obj) => {
     try {
       const docRef = await addDoc(collection(db, "users"), {
-        nome: nome,
-
-        cognome: cognome,
-
-        email: email,
-
-        type: type,
-
-        lista: listaAnimal,
-
+        data: obj,
         createdBy: user.uid,
       });
       console.log("Document written with ID: ", docRef.id);
