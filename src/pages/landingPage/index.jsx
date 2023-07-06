@@ -28,111 +28,92 @@ import {
 const LandingPage = () => {
   return (
     <>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center py-3">
         <Navbar
           variant="gradient"
           color="blue-gray"
-          className="w-1/2 h-1/2 from-blue-gray-900 to-blue-gray-800 px-4 py-3 flex items-center"
+          className="w-full px-4 py-3 flex items-center bg-blue-gray-900"
         >
           <div className="ml-2 mr-4">
             <img
-              src="src\components\FotoAnimali\logo\logo pet trip.png"
+              src="src/components/FotoAnimali/logo/logo pet trip.png"
               alt="logo sito"
+              className="h-20"
             />
           </div>
 
-          <div className="relative flex w-full gap-2 md:w-max">
+          <div className="relative flex w-full gap-2 w-all">
             <Input
-              type="search"
+              type="seach"
               color="white"
               label="Type here..."
-              className="pr-20"
+              className="pr-20 bg-blue-gray-800 rounded-full"
               containerProps={{
-                className: "min-w-[700px]",
+                className: "w-full",
               }}
             />
             <Button
               size="sm"
               color="white"
-              className="!absolute right-1 top-1 rounded"
+              className="right-1 top-1 rounded"
             >
               Search
             </Button>
           </div>
         </Navbar>
       </div>
-      <Map />
       <Dashboard />
     </>
   );
 };
 
-
 export default LandingPage;
 
 const Dashboard = () => {
   return (
-    <div className="">
-      <Card className="w-full h-full from-blue-gray-900 to-blue-gray-800 justify-center items-center">
-        <div className="mb-2 p-4">
-          <Typography
-            variant="h5"
-            color="blue-gray"
-            className="flex items-center"
-          ></Typography>
+    <div className="flex flex-col md:flex-row md:h-full">
+      <div className="md:w-1/5 h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 rounded-r-xl">
+        <List className="p-4">
+          <ListItem className="flex items-center mb-4">
+            <button className="p-4 flex items-center justify-center w-full text-white rounded-lg">
+              Viaggi
+            </button>
+          </ListItem>
+          <ListItem className="flex items-center mb-4">
+            <button className="p-4 flex items-center justify-center w-full text-white rounded-lg">
+              Servizi
+            </button>
+          </ListItem>
+          <ListItem className="flex items-center mb-4">
+            <button className="p-4 flex items-center justify-center w-full text-white rounded-lg">
+              Eventi
+            </button>
+          </ListItem>
+          <ListItem className="flex items-center">
+            <button className="p-4 flex items-center justify-center w-full text-white rounded-lg">
+              News
+            </button>
+          </ListItem>
+        </List>
+      </div>
+      <div className="md:w-4/5 h-full flex flex-col">
+        <div className="flex-1 max-h-full overflow-y-auto bg-white rounded-l-xl">
+          <Card className="my-4 mx-8 p-4 rounded-xl border-blue-gray-900">
+            <CardHeader color="blue-gray" contentPosition="none">
+              <div className="w-full flex items-center justify-between ml-3">
+                <h2 className="text-white text-lg font-medium justify-center"> MAPPA </h2>
+              </div>
+            </CardHeader>
+            <CardBody>
+              <Typography>
+                
+              </Typography>
+            </CardBody>
+            <CardFooter></CardFooter>
+          </Card>
         </div>
-        <div className="flex flex-wrap justify-center">
-          <div className="w-full w-all mb-5">
-            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white items-center justify-center flex flex-row">
-              <button className="p-10 flex items-center justify-center">
-                Viaggi
-              </button>
-            </ListItem>
-          </div>
-          <div className="w-full w-all mb-5">
-            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white items-center justify-center flex flex-row">
-              <button className="p-10 flex items-center justify-center">
-                Servizi
-              </button>
-            </ListItem>
-          </div>
-          <div className="w-full w-all mb-5">
-            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white mb-4 sm:mr-2.5 items-center justify-center flex flex-row">
-              <button className="p-10 flex items-center justify-center">
-                Eventi
-              </button>
-            </ListItem>
-          </div>
-          <div className="w-full w-all mb-5">
-            <ListItem className="h-full bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white items-center justify-center flex flex-row">
-              <button className="p-10"> 
-                <h2>
-                  News
-                </h2>
-              </button>
-            </ListItem>
-          </div>
-        </div>
-      </Card>
-    </div>
-  );
-};
-
-
-
-const Map = () => {
-  return (
-    <div className=" w-auto h-auto justify-center items-center ">
-      <Card className="h-full items-center justify-center bg-gradient-to-br from-blue-gray-900 to-blue-gray-800 text-white mt-5">
-        <CardHeader className=" ">
-          <img layout="fill" />
-        </CardHeader>
-        <CardBody>
-          <Typography variant="h5" color="white" className="mb-2">
-            MAPPA
-          </Typography>
-        </CardBody>
-      </Card>
+        <div className="h-16 bg-white rounded-b-xl"></div>
+      </div>
     </div>
   );
 };
