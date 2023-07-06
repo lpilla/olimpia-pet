@@ -101,7 +101,9 @@ const Dashboard = () => {
           <Card className="my-4 mx-8 p-4 rounded-xl border-blue-gray-900">
             <CardHeader color="blue-gray" contentPosition="none">
               <div className="w-full flex items-center justify-between ml-3">
-                <h2 className="text-white text-lg font-medium justify-center"> MAPPA </h2>
+                <h2 className="text-white text-lg font-medium justify-center"> 
+                  MAPPA 
+                </h2>
               </div>
             </CardHeader>
             <CardBody>
