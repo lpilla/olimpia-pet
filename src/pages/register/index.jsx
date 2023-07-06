@@ -241,7 +241,6 @@ const Register = () => {
           className={"bg-white p-5 bg-opacity-70"}
         >
           <form
-            action=""
             className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
             onSubmit={handleSubmit}
           >
