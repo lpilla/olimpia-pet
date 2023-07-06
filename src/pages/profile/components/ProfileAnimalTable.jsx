@@ -1,7 +1,5 @@
 import { useContext } from "react";
-import AnimalTable from "../../../components/AnimalTable";
 import { UserContext } from "../../../context/UserContext";
-import { Button, Typography, Avatar } from "@material-tailwind/react";
 import FotoCliccabile from "./FotoCliccabile";
 import { useState } from "react";
 import { useEffect } from "react";
