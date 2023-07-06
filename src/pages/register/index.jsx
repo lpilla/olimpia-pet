@@ -376,7 +376,13 @@ const Register = () => {
       )}
       {activeStep === 2 && type === "venditore" && (
         <>
-          <CreateShop type={"register"} dataObj={data}></CreateShop>
+          <Card
+            color="transparent"
+            shadow={true}
+            className={"bg-white p-5 bg-opacity-70"}
+          >
+            <CreateShop type={"register"} dataObj={data}></CreateShop>
+          </Card>
         </>
       )}
       {activeStep === 3 && type === "cliente" && (
@@ -414,6 +420,9 @@ const Register = () => {
         </>
       )}
       {activeStep === 5 && !type === null && <ifGoogleStepType />}
+      {/*
+
+      
       <pre>{JSON.stringify(data, 2, null)}</pre>
 
       <h1>I dati inseriti sono: </h1>
@@ -461,6 +470,8 @@ const Register = () => {
           null
         )}
       </h5>
+
+        */}
     </div>
   );
 };
