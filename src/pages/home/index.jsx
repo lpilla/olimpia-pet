@@ -63,7 +63,7 @@ function MapController({ position }) {
   return null;
 }
 export default function Home() {
-  const { user, logOut, loading } = useContext(UserContext);
+  const { user, logOut, loading, userObj } = useContext(UserContext);
 
   const tekeMeToCenter = () => {
     handleGeolocation();

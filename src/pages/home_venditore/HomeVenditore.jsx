@@ -43,6 +43,7 @@ const HomeVenditore = () => {
 
     getData(user);
   }, [user]);
+
   return (
     <>
       <Card className="overflow-scroll h-full w-full">

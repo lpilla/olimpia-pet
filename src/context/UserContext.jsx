@@ -95,6 +95,7 @@ export const useUser = () => {
   };
 
   const signInWithLink = (curretEmail) => {
+    console.log("sono dentro signInWithLink")
     if (isSignInWithEmailLink(auth, window.location.href)) {
       let email = window.localStorage.getItem(curretEmail);
       if (!email) {
@@ -110,6 +111,7 @@ export const useUser = () => {
             console.log("login effettuato");
             console.log(result.user);
           }
+          console.log("Hey sono verificato")
           return true;
         })
         .catch((error) => {

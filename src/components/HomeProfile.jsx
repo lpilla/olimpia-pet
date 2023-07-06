@@ -1,5 +1,5 @@
 import face from "../pages/home/face-2.jpg";
-import { useState } from "react";
+import {useContext, useState} from "react";
 import {useNavigate } from "react-router-dom";
 import {
   Card,
@@ -13,10 +13,11 @@ import {
   AccordionBody, ListItemPrefix,
 } from "@material-tailwind/react";
 import {ChevronDownIcon, PowerIcon} from "@heroicons/react/24/outline";
+import {UserContext} from "../context/UserContext.jsx";
 
 const HomeProfile = ({user,logout}) => {
   const [open, setOpen] = useState(0);
-
+  const { userObj } = useContext(UserContext)
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
@@ -65,8 +66,8 @@ const HomeProfile = ({user,logout}) => {
                 />
               </div>
               <div className="mt-[-30px]">
-                <h4 className="text-xl font-bold leading-0 ">{user?.email}</h4>
-                <p className="text-sm">2 animali</p>
+                <h4 className="text-xl font-bold leading-0 ">{userObj.nome}</h4>
+                <p className="text-sm">N° Animali: {userObj.lista.length}</p>
                 <p className="text-sm">{user === undefined ? "..." : user?.name}</p>
               </div>
             </AccordionHeader>

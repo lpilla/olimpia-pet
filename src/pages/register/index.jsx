@@ -478,6 +478,13 @@ const Register = () => {
 export default Register;
 
 const Authentication = ({ changeStep, handlePrev }) => {
+
+  /*const { user } = useContext(UserContext)
+  console.log("User auth:",user)
+  const emailVerified = user.emailVerified;
+  useEffect(()=>{
+  },[emailVerified])*/
+
   return (
     <div className="flex max-w-md mx-auto p-8 items-left max-w-8xl">
       <form
