@@ -51,7 +51,7 @@ const HomeProfile = ({ user, logout }) => {
               </div>
               <div className="mt-[-30px]">
                 <h4 className="text-xl font-bold leading-0 ">{userObj.nome}</h4>
-                <p className="text-sm">N° Animali: {userObj.lista.length}</p>
+                <p className="text-sm">N° Animali: 1</p>
                 <p className="text-sm">{user === undefined ? "..." : user?.name}</p>
               </div>
             </AccordionHeader>

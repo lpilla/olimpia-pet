@@ -76,7 +76,7 @@ const CreateShop = ({ type, dataObj }) => {
           console.log("Document written with ID: ", docRef.id);
 
           alert("created");
-          navigate("/");
+          navigate("/venditore");
         });
       }
     );
