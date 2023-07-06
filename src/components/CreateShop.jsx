@@ -102,11 +102,11 @@ const CreateShop = ({ type, dataObj }) => {
 
   const [results, setResults] = useState([]);
 
-  // const provider = new GoogleProvider({
-  //   apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-  // });
+  const provider = new GoogleProvider({
+    apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+  });
 
-  const provider = new OpenStreetMapProvider();
+  //const provider = new OpenStreetMapProvider();
 
   const handleChangeAddress = async (e) => {
     console.log("test");
@@ -201,6 +201,7 @@ const CreateShop = ({ type, dataObj }) => {
               >
                 <Option value={"petShop"}>Pet Shop</Option>
                 <Option value={"veterinario"}>Veterinario</Option>
+                <Option value={"parco"}>Parco</Option>
               </Select>
               <div className={"flex"}>
                 {services.map((service) => (
