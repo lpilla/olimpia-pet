@@ -1,6 +1,5 @@
-import face from "../pages/home/face-2.jpg";
 import { useState } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -10,11 +9,13 @@ import {
   ListItem,
   AccordionHeader,
   Avatar,
-  AccordionBody, ListItemPrefix,
+  AccordionBody,
+  ListItemPrefix,
 } from "@material-tailwind/react";
-import {ChevronDownIcon, PowerIcon} from "@heroicons/react/24/outline";
+import { ChevronDownIcon, PowerIcon } from "@heroicons/react/24/outline";
+import Foto from "../pages/profile/profilo.jpg";
 
-const HomeProfile = ({user,logout}) => {
+const HomeProfile = ({ user, logout }) => {
   const [open, setOpen] = useState(0);
 
   const handleOpen = (value) => {
@@ -23,7 +24,7 @@ const HomeProfile = ({user,logout}) => {
   const navigate = useNavigate();
   const goToProfilePage = () => {
     navigate("/profile");
-  }
+  };
   return (
     <Card className="bg-[#D9D9D9] fixed top-4 left-4 h-auto w-full max-w-[20rem] shadow-xl shadow-blue-gray-900/5 z-[9999]">
       <List>
@@ -44,38 +45,22 @@ const HomeProfile = ({user,logout}) => {
               className="border-b-0 p-3 flex justify-between mw-full"
             >
               <div className={"min-w-[75px]"}>
-                <Avatar src={face} alt="avatar" size="xl" />
-                <Avatar
-                  src={face}
-                  alt="avatar"
-                  size="sm"
-                  className="absolute bottom-2 left-[50px]"
-                />
-                <Avatar
-                  src={face}
-                  alt="avatar"
-                  size="sm"
-                  className="absolute bottom-2 left-[75px]"
-                />
-                <Avatar
-                  src={face}
-                  alt="avatar"
-                  size="sm"
-                  className="absolute bottom-2 left-[100px]"
-                />
+                <Avatar src={Foto} alt="avatar" size="xl" />
               </div>
               <div className="mt-[-30px]">
                 <h4 className="text-xl font-bold leading-0 ">{user?.email}</h4>
                 <p className="text-sm">2 animali</p>
-                <p className="text-sm">{user === undefined ? "..." : user?.name}</p>
+                <p className="text-sm">
+                  {user === undefined ? "..." : user?.name}
+                </p>
               </div>
             </AccordionHeader>
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
               <ListItem onClick={goToProfilePage}>Profile</ListItem>
-              <ListItem>Reporting</ListItem>
-              <ListItem>Projects</ListItem>
+              <ListItem>Annunci</ListItem>
+              <ListItem>Eventi</ListItem>
               <ListItem onClick={logout}>
                 <ListItemPrefix>
                   <PowerIcon className="h-5 w-5" />

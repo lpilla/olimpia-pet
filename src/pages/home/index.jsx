@@ -1,7 +1,6 @@
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useMap, useMapEvents } from "react-leaflet/hooks";
-import face from "./face-2.jpg";
 import ReactLeafletGoogleLayer from "react-leaflet-google-layer";
 
 import { UserContext } from "../../context/UserContext";
@@ -118,9 +117,12 @@ export default function Home() {
           className={"map-container"}
         >
           <div class="buttons mt-2 ml-2">
-            <button class="bg-white rounded-full py-2 px-4 shadow-md" onClick={() => tekeMeToCenter()}>
+            <button
+              class="bg-white rounded-full py-2 px-4 shadow-md"
+              onClick={() => tekeMeToCenter()}
+            >
               take me to center
-              </button>
+            </button>
           </div>
           <TileLayer
             noWrap={true}
